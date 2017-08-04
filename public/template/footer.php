@@ -19,9 +19,10 @@
           pretium quis, sem. </p>
       </div>
     </div>
-    <div class="row py-3">
+    <hr>
+    <div class="row">
       <div class="col align-self-center">
-        <p class="text-center"><i class="fa fa-copyright"></i> Copyright 2017 <br> Phranakhon rajabhat university</p>
+        <p class="text-center py-3"><i class="fa fa-copyright"></i> Copyright 2017 Phranakhon rajabhat university</p>
     </div>
   </div>
 </footer>

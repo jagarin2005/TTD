@@ -3,8 +3,10 @@
     RewriteBase /p/
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^index$ public/index.php/$1/ [NC,R=301,L]
-    RewriteRule ^login$ public/login.php/$2
-    RewriteRule ^register$ public/register.php/$2
+    RewriteRule ^/$ public/index.php/ [NC,R=301,L]
+    RewriteRule ^index$ public/index.php
+    RewriteRule ^login$ public/login.php
+    RewriteRule ^register$ public/register.php
+    RewriteRule ^dashboard$ public/dashboard/index.php
     DirectoryIndex public/index.php
 </IfModule>
