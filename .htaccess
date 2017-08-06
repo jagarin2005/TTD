@@ -7,6 +7,7 @@
     RewriteRule ^index$ public/index.php
     RewriteRule ^login$ public/login.php
     RewriteRule ^register$ public/register.php
+    RewriteRule ^verify$ public/verify.php
     RewriteRule ^dashboard$ public/dashboard/index.php
     DirectoryIndex public/index.php
 </IfModule>

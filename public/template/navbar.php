@@ -1,12 +1,13 @@
-<!-- Navbar  -->
-<?php include_once('../config/conn.php'); ?>
+<!-- Navbar -->
 <?php 
+if($user->is_loggedin()){
   if($_SERVER["REQUEST_METHOD"] == "POST") {
-    if($_POST["isLogout"] == true){
+    if(isset($_POST["isLogout"])){
       $user->logout();
       $user->redirect("/p/");
     }
   }
+}
 ?> 
 <nav class="navbar navbar-toggleable-md bg-faded navbar-light fixed-top" role="navbar">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,30 +20,48 @@
         <a class="nav-link" href="/p/">หน้าหลัก</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">สินค้า</a>
+        <a class="nav-link" href="/p/#product">สินค้า</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">บริการ</a>
+        <a class="nav-link" href="/p/#service">บริการ</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">กิจกรรมของเรา</a>
+        <a class="nav-link" href="/p/#contact">ติดต่อเรา</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">เกี่ยวกับคลินิกฯ</a>
+        <a class="nav-link" href="/p/#about">เกี่ยวกับคลินิกฯ</a>
       </li>
     </ul>
-    <hr class="col-12 hidden-lg-up">
+    <hr class="col-12 hidden-lg-up" style="width: 90%;">
     <ul class="navbar-nav">
     <?php 
     if($user->is_loggedin()) {
       echo '
-      <li class="nav-item px-1">
-        <a class="nav-link"><i class="fa fa-user"></i> '. $_SESSION["user"] .'</a>
+      <li class="nav-item dropdown px-1 hidden-md-down">
+        <a class="nav-link dropdown-toggle" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
+          <i class="fa fa-user"></i> '. $_SESSION["name"] .'
+        </a>
+        <div class="dropdown-menu" aria-labelledby="userMenu">
+          <a class="dropdown-item" href="/p/dashboard"><i class=""></i> Dashboard</a>
+          <button class="dropdown-item btn btn-link" type="button" data-toggle="modal" data-target="#modal_1">booking</button>
+          <div class="dropdown-divider"></div>
+          <form method="post" action="" id="logout">
+            <button class="dropdown-item btn btn-link" type="submit"><i class="fa fa-sign-out"></i> Logout</button>
+            <input type="hidden" name="isLogout" value="true" />
+          </form>
+        </div>
       </li>
-      <li class="nav-item px-1">
-        <a class="nav-link" href="/p/dashboard"><i class=""></i> ทำการจอง</a>
+
+      <li class="nav-item px-1 hidden-lg-up">
+        <a class="nav-link"><i class="fa fa-user"></i> '. $_SESSION["name"] .'</a>
       </li>
-      <li class="nav-item px-1">
+      <li class="nav-item px-1 hidden-lg-up">
+        <a class="nav-link" href="/p/dashboard"><i class=""></i> Dashboard</a>
+      </li>
+      <li class="nav-item" px-1 hidden-lg-up">
+        <a class="nav-link"></a>
+      </li>
+      <li class="nav-item px-1 hidden-lg-up">
         <form method="post" action="" id="logout">
           <button class="nav-link btn btn-link" type="submit"><i class="fa fa-sign-out"></i> Logout</button>
           <input type="hidden" name="isLogout" value="true" />
@@ -63,3 +82,31 @@
     </ul>
   </div>
 </nav>
+<div class="modal fade" id="modal_1" tabindex="-1" role="dialog" aria-labelledby="booking">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="booking">Booking</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="" name="booking">
+          <div class="form-group row" id="med">
+            <div class="col-12">
+              <select class="form-control form-control-lg" name="med" placeholder="เลือกเจ้าหน้าที่...">
+                <?php 
+                  
+                ?>
+              </select>
+            </div>
+          </div>
+          <input type="hidden" name="isBooking" value="true">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" for="booking" class="btn btn-success">Booking</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

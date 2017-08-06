@@ -27,18 +27,18 @@
                 <div class="form-group row">
                   <!-- <label for="" class="col-md-3 col-form-label">ชื่อผู้ใช้</label> -->
                   <div class="col-12">
-                    <input class="form-control form-control-lg" type="email" name="eml" value="" placeholder="อีเมล์" required>
+                    <input class="form-control form-control-lg" type="email" name="eml" value="" placeholder="อีเมล์">
                   </div>
                 </div>
                 <div class="form-group row">
                   <!-- <label for="" class="col-md-3 col-form-label">รหัสผ่าน</label> -->
                   <div class="col-12">
-                    <input class="form-control form-control-lg" type="password" name="pwd" value="" placeholder="รหัสผ่าน" required>
+                    <input class="form-control form-control-lg" type="password" name="pwd" value="" placeholder="รหัสผ่าน">
                   </div>
                 </div>
                 <p></p>
                 <div class="row justify-content-center">
-                  <button type="submit" class="btn btn-primary btn-lg col-5" name="login-btn" value="true">เข้าสู่ระบบ </button>
+                  <button type="submit" class="btn btn-primary btn-lg col-11" name="login-btn" value="true">เข้าสู่ระบบ </button>
                 </div>
               </form>
             </div>
