@@ -17,19 +17,19 @@ if($user->is_loggedin()){
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="/p/">หน้าหลัก</a>
+        <a class="nav-link" href="/p/" id="index_nav">หน้าหลัก</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/p/#product">สินค้า</a>
+        <a class="nav-link" href="/p/#product" id="product_nav">สินค้า</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/p/#service">บริการ</a>
+        <a class="nav-link" href="/p/#service" id="service_nav">บริการ</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/p/#contact">ติดต่อเรา</a>
+        <a class="nav-link" href="/p/#contact" id="contact_nav">ติดต่อเรา</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/p/#about">เกี่ยวกับคลินิกฯ</a>
+        <a class="nav-link" href="/p/#about" id="about_nav">เกี่ยวกับคลินิกฯ</a>
       </li>
     </ul>
     <hr class="col-12 hidden-lg-up" style="width: 90%;">
@@ -42,8 +42,11 @@ if($user->is_loggedin()){
           <i class="fa fa-user"></i> '. $_SESSION["name"] .'
         </a>
         <div class="dropdown-menu" aria-labelledby="userMenu">
-          <a class="dropdown-item" href="/p/dashboard"><i class=""></i> Dashboard</a>
-          <button class="dropdown-item btn btn-link" type="button" data-toggle="modal" data-target="#modal_1">booking</button>
+          <a class="dropdown-item" href="/p/dashboard"><i class=""></i> Dashboard</a>';
+          if($user->is_user()) {
+            echo '<button class="dropdown-item btn btn-link" type="button" data-toggle="modal" data-target="#modal_1">booking</button>';
+          }
+          echo '
           <div class="dropdown-divider"></div>
           <form method="post" action="" id="logout">
             <button class="dropdown-item btn btn-link" type="submit"><i class="fa fa-sign-out"></i> Logout</button>
@@ -82,6 +85,7 @@ if($user->is_loggedin()){
     </ul>
   </div>
 </nav>
+
 <div class="modal fade" id="modal_1" tabindex="-1" role="dialog" aria-labelledby="booking">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

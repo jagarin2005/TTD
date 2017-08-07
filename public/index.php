@@ -90,6 +90,7 @@
     (document, 'script', 'facebook-jssdk'));
   </script>
   <?php include_once('./template/footer.php') ?>
+  <?php include_once('./template/footer.js.php') ?>
 </body>
 
 </html>

@@ -1,13 +1,17 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /p/
+    RewriteBase /p/public/
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^/$ public/index.php/ [NC,R=301,L]
-    RewriteRule ^index$ public/index.php
-    RewriteRule ^login$ public/login.php
-    RewriteRule ^register$ public/register.php
-    RewriteRule ^verify$ public/verify.php
-    RewriteRule ^dashboard$ public/dashboard/index.php
+    RewriteRule ^/$ index.php/ [NC,R=301,L]
+    RewriteRule ^index$ index.php
+    RewriteRule ^login$ login.php
+    RewriteRule ^register$ register.php
+    RewriteRule ^verify$ verify.php
+    RewriteRule ^dashboard$ dashboard/index.php
+    RewriteRule ^manageUser$ dashboard/manageUser.php
+    RewriteRule ^manageShifts$ dashboard/manageShifts.php
+    RewriteRule ^manageAppoint$ dashboard/manageAppoint.php
+    RewriteRule ^content(.*)$ content.php
     DirectoryIndex public/index.php
 </IfModule>

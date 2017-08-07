@@ -28,7 +28,7 @@
       $error[] = "กรุณายืนยันรหัสผ่านของคุณ";
     }
     else if(strlen($pwd) < 6 || strlen($pwe) < 6) {
-      $error[] = "รหัสผ่านต้องมีมากกว่า 8 ตัวอักษร";
+      $error[] = "รหัสผ่านต้องมีมากกว่า 6 ตัวอักษร";
     }
     else if($pwd!=$pwe) {
       $error[] = "กรุณาใส่รหัสผ่านให้ตรงกัน";
@@ -77,12 +77,12 @@
                 </div>
                 <div class="form-group row" id="pwd_">
                   <div class="col-12">
-                    <input class="form-control form-control-lg" type="password" name="pwd" id="pwd" value="" placeholder="รหัสผ่าน" onkeyup="check_pass()" required>
+                    <input class="form-control form-control-lg" type="password" name="pwd" id="pwd" value="" placeholder="รหัสผ่าน" onkeyup="" required>
                   </div>
                 </div>
                 <div class="form-group row" id="pwe_">
                   <div class="col-12">
-                    <input class="form-control form-control-lg" type="password" name="pwe" id="pwe" value="" placeholder="ยืนยันรหัสผ่าน" onkeyup="check_pass()" required>
+                    <input class="form-control form-control-lg" type="password" name="pwe" id="pwe" value="" placeholder="ยืนยันรหัสผ่าน" onkeyup="" required>
                   </div>
                 </div>
                 <div class="form-group row" id="tel_">
@@ -93,12 +93,12 @@
                 <div class="text-center">
                   <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" name="sex" id="sex" value="0"> เพศชาย <i class="fa fa-male"></i>
+                      <input class="form-check-input" type="radio" name="sex" id="sex" value="ชาย"> เพศชาย <i class="fa fa-male"></i>
                     </label>
                   </div>
                   <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" name="sex" id="sex" value="1"> เพศหญิง <i class="fa fa-female"></i>
+                      <input class="form-check-input" type="radio" name="sex" id="sex" value="หญิง"> เพศหญิง <i class="fa fa-female"></i>
                     </label>
                     </div>
                   </div>
@@ -114,9 +114,10 @@
     </div>
   </div>
   <?php include_once('./template/footer.php') ?>
+  <?php include_once('./template/footer.js.php') ?>
   <script>
-    var pass = false;
-    function check_pass() {
+    var pass = true;
+    /*function check_pass() {
       var pd = document.forms["register"]["pwd"].value;
       var pe = document.forms["register"]["pwe"].value;
       if(pd == "" && pe == "") {
@@ -153,7 +154,7 @@
         $("#pwe").addClass("form-control-success");
         pass = true;
       }
-    }
+    }*/
 
     document.forms["register"]["reg-btn"].addEventListener("click", function(e) {
       if(pass === false) e.preventDefault()

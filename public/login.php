@@ -48,6 +48,7 @@
     </div>
   </div>
   <?php include_once('./template/footer.php') ?>
+  <?php include_once('./template/footer.js.php') ?>
 </body>
 
 </html>
