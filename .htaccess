@@ -12,6 +12,7 @@
     RewriteRule ^manageUser$ dashboard/manageUser.php
     RewriteRule ^manageShifts$ dashboard/manageShifts.php
     RewriteRule ^manageAppoint$ dashboard/manageAppoint.php
+    RewriteRule ^editUser$ dashboard/editUser.php
     RewriteRule ^content(.*)$ content.php
     DirectoryIndex public/index.php
 </IfModule>

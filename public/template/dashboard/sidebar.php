@@ -14,9 +14,13 @@
       <a href="#" class="list-group-item" data-parent="#menu3">3.2 </a>
       <a href="#" class="list-group-item" data-parent="#menu3">3.3</a>
     </div>
-    <a href="/p/manageUser" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-heart"></i> <span class="hidden-sm-down">การจัดการผู้ใช้</span></a>
-    <a href="/p/manageShifts" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-list"></i> <span class="hidden-sm-down">กะเข้าทำงาน</span></a>
-    <a href="/p/manageAppoint" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-list"></i> <span class="hidden-sm-down">การนัดและการจอง</span></a>
+    <?php
+    if($user->is_admin()){
+      echo '<a href="/p/manageUser" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-user"></i> <span class="hidden-sm-down">การจัดการผู้ใช้</span></a>
+      <a href="/p/manageShifts" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-list"></i> <span class="hidden-sm-down">กะเข้าทำงาน</span></a>
+      <a href="/p/manageAppoint" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-list"></i> <span class="hidden-sm-down">การนัดและการจอง</span></a>';
+    }
+    ?>
     <?php 
     if($user->is_loggedin()) {
       echo '

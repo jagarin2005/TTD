@@ -1,6 +1,5 @@
 <?php include_once("../../config/conn.php"); ?>
 <?php 
-
   if(!$user->is_loggedin()) {
 		$user->redirect("/p/");
 	}
@@ -22,7 +21,7 @@
       $role = trim($_POST["utype"]);
       
       if($email==""){
-        $error[] = "กรุณาใส่อีเมล์ของคุณ";
+        $error[] = "กรุณาใส่อีเมล์ของคุณ".$_POST["isAddUser"];
       }else if($role=="") {
         $error[] = "กรุณาใส่ประเภทผู้ใช้";
       }else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -54,6 +53,7 @@
               $tel = null;
               $sex = null;
               $role = null;
+              unset($_POST["isAddUser"]);
               exit();
             }
           }
@@ -61,6 +61,13 @@
           echo $e->getMessage();
         }
       }
+    }
+    else if(isset($_POST["isDelUser"])){
+      $id = trim($_POST["del"]);
+      $user->delete($id);
+      $_POST["isDelUser"] = null;
+      $user->redirect("/p/manageUser");
+      exit();
     }
   }
 ?>
@@ -95,9 +102,10 @@
                         <th>Name</th>
                         <th>Tel</th>
                         <th>Sex</th>
+                        <th>Editor</th>
                       </tr></thead>
                       <tbody>';
-              $stmt = $conn->prepare("SELECT * FROM user");
+              $stmt = $conn->prepare("SELECT * FROM user WHERE user_id > 0");
               $stmt->execute();
               while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '<tr>
@@ -107,6 +115,8 @@
                         <td>'. $row["user_name"] .'</td>
                         <td>'. $row["user_tel"] .'</td>
                         <td>'. $row["user_sex"] .'</td>
+                        <td class="text-center"><a class="text-primary" href="/p/editUser?uid='. $row["user_id"] .'" data-toggle="tooltip" data-placement="right" title="แก้ไขข้อมูล"><i class="fa fa-edit"></i></a> 
+                            <a class="text-danger" href="#" data-toggle="modal" data-target="#del_user" data-uid="'. $row["user_id"] .'" data-toggle="tooltip" data-placement="right" title="ลบข้อมูล"><i class="fa fa-close"></i></a>
                       </tr>';
               }
               echo '   </tbody>
@@ -119,6 +129,7 @@
 		</div>
   </div>
   
+  <!-- Add modal -->
   <div class="modal fade" id="add_user" tabindex="-1" role="dialog" aria-labelledby="addUser">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -180,12 +191,40 @@
     </div>
   </div>
 
+  <!-- Delete modal -->
+  <div class="modal fade" id="del_user" tabindex="-1" role="dialog" aria-labelledby="delUser">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="delUser">Delete User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="" name="delUser" id="delUserForm">
+            <p>คุณต้องการลบข้อมูลนี้ใช่หรือไม่</p>
+            <input type="hidden" name="isDelUser" value="true">
+            <input type="hidden" name="del" id="del_" value="">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" form="delUserForm" class="btn btn-primary">Delete User</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <?php include_once("../template/footer.js.php"); ?>
   <script>
     $(document).ready(function() {
       $('#user_table').DataTable();
     });
+    $('#del_user').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var res = button.data('uid')
+      var modal = $(this)
+      modal.find('#del_').val(res)
+    })
   </script>
 </body>
 </html>

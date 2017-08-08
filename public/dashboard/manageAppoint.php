@@ -41,14 +41,19 @@
                         <th>เจ้าหน้าที่</th>
                         <th>วันที่จอง</th>
                         <th>รายละเอียดการจอง</th>
+                        <th>สถานะการจอง</th>
                       </tr></thead><tbody>';
-              $stmt = $conn->prepare("SELECT a.user_name AS user1, b.user_name AS user2 FROM user a, user b WHERE a.user_role LIKE 'user' AND b.user_role LIKE 'staff'");
+              $stmt = $conn->prepare("SELECT u.user_name, s.staff_name, b.booking_date, b.booking_note, b.booking_status
+                                      FROM `booking` b, `staff` s, `user` u
+                                      WHERE u.user_id = b.user_id AND s.staff_id = b.staff_id;");
               $stmt->execute();
               while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '<tr>
                         <td>'. $row["user_name"] .'</td>
-                        <td>'. $row["user_id"] .'</td>
-                        <td>'. $row["user_email"] .'</td>
+                        <td>'. $row["staff_name"] .'</td>
+                        <td>'. $row["booking_date"] .'</td>
+                        <td>'. $row["booking_note"] .'</td>
+                        <td>'. $row["booking_status"] .'</td>
                       </tr>';
               }
               echo '   </tbody>
@@ -64,58 +69,6 @@
 		</div>
   </div>
   
-  <!-- modal -->
-	<div class="modal fade" id="add_shifts" tabindex="-1" role="dialog" aria-labelledby="shifts">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="shifts">Add Shifts</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-          <form method="post" action="" name="addshifts" id="addShiftsForm">
-            <div class="form-group row" id="u_type">
-              <div class="col-12">
-                <select class="form-control form-control-lg" name="s_staff">
-									<?php 
-										$stmt = $conn->prepare("SELECT * FROM user WHERE user_role LIKE 'staff'");
-										$stmt->execute();
-										echo "<option selected>เลือกเจ้าหน้าที่</option>";
-										while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
-											echo "<option value='".$row["user_id"]."'>".$row["user_name"]."</option>";
-										}	
-									?>
-                </select>
-              </div>
-            </div>
-            <div class="form-group row" id="u_name">
-              <div class="col-12">
-                <input type="date" class="form-control form-control-lg" name="s_date" placeholder="วันที่">
-              </div>
-            </div>
-            <div class="text-center">
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" name="s_position" id="sex" value="ว" checked> ว/น <i class=""></i>
-                </label>
-              </div>
-							<div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" name="s_position" id="sex" value="น.2"> น.2 <i class=""></i>
-                </label>
-              </div>
-            </div>
-            <input type="hidden" name="isAddShifts" value="true">
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" form="addShiftsForm" class="btn btn-primary">Add Shifts</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 	<?php include_once("../template/footer.js.php"); ?>
 	<script>
     $(document).ready(function() {
