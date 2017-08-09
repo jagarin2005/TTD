@@ -1,8 +1,5 @@
 <?php include_once("../../config/conn.php"); ?>
 <?php 
-
-?>
-<?php 
   if(!$user->is_loggedin()) {
 		$user->redirect("/p/");
 	}
@@ -40,7 +37,19 @@
 					echo $e->getMessage();
 				}
 			}
-		}
+		}else if(isset($_POST["isDelShifts"])){
+      try{
+        $id = $_POST["del"];
+        $stmt = $conn->prepare("DELETE FROM shifts WHERE s_id = :id");
+        $stmt->execute(array(":id"=>$id));
+      }catch(PDOException $e){
+          echo $e->getMessage();
+      }
+      unset($id);
+      unset($_POST["isDelShifts"]);
+      $user->redirect("/p/manageShifts");
+      exit();
+    }
 	}
 ?>
 <!DOCTYPE html>
@@ -56,7 +65,7 @@
 			<main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
 				<a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
 				<div class="page-header">
-					<h1>การจัดการกะเข้าทำงาน</h1>
+					<h1>วันที่เข้าปฏิบัติงาน</h1>
 				</div>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#add_shifts"><i class="fa fa-plus"> Add</i></button>
         <!-- <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#calendar"><i class=""></i></button> -->
@@ -73,14 +82,18 @@
                         <th>เจ้าหน้าที่</th>
                         <th>วันที่</th>
                         <th>หน้าที่</th>
+                        <th></th>
                       </tr></thead><tbody>';
-              $stmt = $conn->prepare("SELECT staff.staff_name, shifts.s_date, shifts.s_position FROM shifts INNER JOIN staff ON shifts.staff_id = staff.staff_id");
+              $stmt = $conn->prepare("SELECT shifts.s_id, staff.staff_name, shifts.s_date, shifts.s_position FROM shifts INNER JOIN staff ON shifts.staff_id = staff.staff_id");
               $stmt->execute();
               while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '<tr>
                         <td>'. $row["staff_name"] .'</td>
                         <td>'. $row["s_date"] .'</td>
                         <td>'. $row["s_position"] .'</td>
+                        <td class="text-center">
+                          <a class="text-danger" href="#" data-toggle="modal" data-target="#del_shifts" data-sid="'. $row["s_id"] .'" title="ลบข้อมูล"><i class="fa fa-close"></i></a>
+                        </td>
                       </tr>';
               }
               echo '   </tbody>
@@ -129,6 +142,11 @@
                   <input class="form-check-input" type="radio" name="s_position" id="sex" value="ว/น" required> ว/น <i class=""></i>
                 </label>
               </div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="s_position" id="sex" value="น/ว" required> น/ว <i class=""></i>
+                </label>
+              </div>
 							<div class="form-check form-check-inline">
                 <label class="form-check-label">
                   <input class="form-check-input" type="radio" name="s_position" id="sex" value="น.2" required> น.2 <i class=""></i>
@@ -146,20 +164,23 @@
     </div>
   </div>
 
-  <!-- modal calendar NOT WORK -->
-  <div class="modal fade" id="calendar" tabindex="-1" role="dialog" aria-labelledby="calendar">
+<!-- Modal delete -->
+  <div class="modal fade" id="del_shifts" tabindex="-1" role="dialog" aria-labelledby="delShifts">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="calendar">Add Shifts</h5>
+          <h5 class="modal-title" id="delShifts">Delete Shifts</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-          <?php
-            
-          ?>
+          <form method="post" action="" name="delShifts" id="delShiftsForm">
+            <p>คุณต้องการลบข้อมูลนี้ใช่หรือไม่</p>
+            <input type="hidden" name="isDelShifts" value="true">
+            <input type="hidden" name="del" id="del_" value="">
+          </form>
+        </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">OK</button>
+          <button type="submit" form="delShiftsForm" class="btn btn-primary">Delete Shifts</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -171,6 +192,12 @@
     $(document).ready(function() {
       $('#shifts_table').DataTable();
     });
+    $('#del_shifts').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var res = button.data('sid')
+      var modal = $(this)
+      modal.find('#del_').val(res)
+    })
   </script>
 </body>
 </html>

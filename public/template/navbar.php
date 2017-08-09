@@ -8,10 +8,11 @@ if($user->is_loggedin()){
     }
     if(isset($_POST["isBooking"])){
       $id = $_POST["uid"];
-      $select = trim($_POST["stSelect"]);
+      $select = trim($_POST["select"]);
       $date = trim($_POST["book_date"]);
       $note = trim($_POST["book_note"]);
       $status = "รอการยืนยัน";
+      $type = "จอง";
       
       if($select==""){
         $error[] = "กรุณาเลือกรูปแบบการจอง";
@@ -27,9 +28,9 @@ if($user->is_loggedin()){
             $error[] = "คุณได้ทำการจองในวันนี้ไว้แล้ว";
           }
           else {
-              $stmt = $conn->prepare("INSERT INTO booking(user_id, staff_id, booking_date, booking_note, booking_status) 
-                                      VALUES (:user,:staff,:date,:note,:status)");
-              $stmt->execute(array(":user"=>$id, ":staff"=>$select, ":date"=>$date, ":note"=>$note, ":status"=>$status));
+              $stmt = $conn->prepare("INSERT INTO booking(user_id, staff_id, booking_date, booking_note, booking_status, booking_type) 
+                                      VALUES (:user,:staff,:date,:note,:status,:type)");
+              $stmt->execute(array(":user"=>$id, ":staff"=>$select, ":date"=>$date, ":note"=>$note, ":status"=>$status, ":type"=>$type));
               $id = null;
               $select = null;
               $date = null;
@@ -62,7 +63,7 @@ if($user->is_loggedin()){
         <a class="nav-link" href="/p/#product" id="product_nav">สินค้า</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/p/#service" id="service_nav">บริการ</a>
+        <a class="nav-link" href="/p/#activity" id="activity_nav">กิจกรรม</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/p/#contact" id="contact_nav">ติดต่อเรา</a>
@@ -77,7 +78,7 @@ if($user->is_loggedin()){
 
     if($user->is_loggedin()) {
       if($user->is_user() || $user->is_staff()) {
-      echo '<li class="nav-item px-1"><a class="nav-link"><i class="fa fa-bell" aria-hidden="true"></i></a></li>';
+      // echo '<li class="nav-item px-1"><a class="nav-link"><i class="fa fa-bell" aria-hidden="true"></i></a></li>';
       }
       echo '
       <li class="nav-item dropdown px-1 hidden-md-down">
@@ -88,7 +89,7 @@ if($user->is_loggedin()){
           <a class="dropdown-item" href="/p/dashboard"><i class=""></i> Dashboard</a>';
  
           if($user->is_user()) {
-            echo '<button class="dropdown-item btn btn-link" type="button" data-toggle="modal" data-target="#booking_modal">booking</button>';
+            echo '<button class="dropdown-item btn btn-link" type="button" data-toggle="modal" data-target="#booking_modal">ทำการจอง</button>';
           }
           echo '
           <div class="dropdown-divider"></div>
@@ -107,7 +108,7 @@ if($user->is_loggedin()){
       </li>
       <li class="nav-item" px-1 hidden-lg-up">';
       if($user->is_user()){
-        echo '<a class="nav-link" data-toggle="modal" data-target="#booking_modal" style="cursor: pointer;">booking</a>';
+        echo '<a class="nav-link" data-toggle="modal" data-target="#booking_modal" style="cursor: pointer;">ทำการจอง</a>';
       }
       echo '</li>
       <li class="nav-item px-1 hidden-lg-up">
@@ -138,7 +139,7 @@ if($user->is_loggedin()){
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="booking">Booking</h5>
+        <h5 class="modal-title" id="booking">ทำการจอง</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
@@ -155,7 +156,7 @@ if($user->is_loggedin()){
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" form="bookingForm" class="btn btn-success">Booking</button>
+        <button type="submit" form="bookingForm" class="btn btn-success">ทำการจอง</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -189,6 +190,20 @@ if($user->is_loggedin()){
       }
     }
     xmlhttp.open("GET","/p/public/template/stImage.php?q="+val,true);
+    xmlhttp.send();
+  }
+  function getDtStaff(date) {
+    if(window.XMLHttpRequest) {
+      xmlhttp = new XMLHttpRequest();
+    } else {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+      if(this.readyState == 4 && this.status == 200) {
+        document.getElementById("dtStaff").innerHTML = this.responseText;
+      }
+    }
+    xmlhttp.open("GET", "/p/public/template/dtStaff.php?q="+date, true);
     xmlhttp.send();
   }
 </script>

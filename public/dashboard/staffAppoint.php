@@ -3,7 +3,27 @@
   if(!$user->is_loggedin()) {
 		$user->redirect("/p/");
 	}
-  
+  if(isset($_GET["q"]) && isset($_GET["w"])){
+    $id = $_GET["w"];
+    if($_GET["q"] == "true"){
+      $status = "ยืนยันแล้ว";
+      $uid = $_GET["u"];
+      $sid = $_GET["s"];
+      $stmt = $conn->prepare("UPDATE booking SET booking_status=:status WHERE booking_id = :id");
+      $stmt->execute(array(":status"=>$status,":id"=>$id));
+      $stmt2 = $conn->prepare("INSERT checklist(user_id, staff_id, booking_id) VALUE (:uid,:sid,:bookid)");
+      $stmt2->execute(array(":uid"=>$uid,":sid"=>$sid,":bookid"=>$id));
+    }else if($_GET["q"] == "false"){
+      $status = "ยกเลิกการจอง";
+      $stmt = $conn->prepare("UPDATE booking SET booking_status=:status WHERE booking_id = :id");
+      $stmt->execute(array(":status"=>$status,":id"=>$id));
+    }
+    unset($q);
+    unset($w);
+    $user->redirect("/p/staffAppoint");
+    exit();
+  }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,9 +38,8 @@
 			<main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
 				<a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
 				<div class="page-header">
-					<h1>การจัดการกะเข้าทำงาน</h1>
-				</div>
-        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#add_shifts"><i class="fa fa-plus"> Add</i></button>
+					<h1>การนัดและการจอง</h1>
+        </div>
         <!-- <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#calendar"><i class=""></i></button> -->
 				<?php if(isset($error)){while($error){ echo $error; }} ?>
 				<p class="lead"></p>
@@ -32,17 +51,29 @@
                   <table id="shifts_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                       <tr>
-                        <th>เจ้าหน้าที่</th>
+                        <th>ประเภท</th>
+                        <th>ผุ้ใช้</th>
                         <th>วันที่</th>
-                        <th>หน้าที่</th>
+                        <th>โน๊ต</th>
+                        <th>สถานะ</th>
+                        <th></th>
                       </tr></thead><tbody>';
-              $stmt = $conn->prepare("SELECT staff.staff_name, shifts.s_date, shifts.s_position FROM shifts INNER JOIN staff ON shifts.staff_id = staff.staff_id");
-              $stmt->execute();
+              $id = $_SESSION["id"];
+              $stmt = $conn->prepare("SELECT u.user_id, s.staff_id, b.booking_type, b.booking_id, u.user_name, s.staff_name, b.booking_date, b.booking_note, b.booking_status
+                                      FROM `booking` b, `staff` s, `user` u
+                                      WHERE u.user_id = b.user_id AND s.staff_id = b.staff_id AND s.user_id = :id");
+              $stmt->execute(array(":id"=>$id));
               while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '<tr>
-                        <td>'. $row["staff_name"] .'</td>
-                        <td>'. $row["s_date"] .'</td>
-                        <td>'. $row["s_position"] .'</td>
+                        <td>'. $row["booking_type"] .'</td>
+                        <td>'. $row["user_name"] .'</td>
+                        <td>'. $row["booking_date"] .'</td>
+                        <td>'. $row["booking_note"] .'</td>
+                        <td>'. $row["booking_status"] .'</td>
+                        <td class="text-center">';
+                        if($row["booking_status"] == 'รอการยืนยัน'){echo '<a class="" href="/p/staffAppoint?q=true&w='.$row["booking_id"].'&u='.$row["user_id"].'&s='.$row["staff_id"].'" title="ทำการยืนยัน" style="cursor: pointer;"><i class="fa fa-check fa-fw text-success"></i></a>
+                                                <a class="" href="/p/staffAppoint?q=false&w='.$row["booking_id"].'" title="ทำการยกเลิก" style="cursor: pointer;"><i class="fa fa-close fa-fw text-danger"></i></a>';}
+                        echo '</td>
                       </tr>';
               }
               echo '   </tbody>
@@ -53,79 +84,6 @@
 				</div>
 			</main>
 		</div>
-  </div>
-  
-  <!-- Modal add shifts -->
-	<div class="modal fade" id="add_shifts" tabindex="-1" role="dialog" aria-labelledby="shifts">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="shifts">Add Shifts</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-          <form method="post" action="" name="addshifts" id="addShiftsForm">
-            <div class="form-group row" id="u_type">
-              <div class="col-12">
-                <select class="form-control form-control-lg" name="s_staff">
-									<?php 
-										$stmt = $conn->prepare("SELECT * FROM staff");
-										$stmt->execute();
-										echo "<option selected>เลือกเจ้าหน้าที่</option>";
-										while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
-											echo "<option value='".$row["staff_id"]."'>".$row["staff_name"]."</option>";
-										}	
-									?>
-                  
-                </select>
-              </div>
-            </div>
-            <div class="form-group row" id="u_name">
-              <div class="col-12">
-                <input type="date" class="form-control form-control-lg" name="s_date" placeholder="วันที่">
-              </div>
-            </div>
-            <div class="text-center">
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="s_position" id="sex" value="ว/น" required> ว/น <i class=""></i>
-                </label>
-              </div>
-							<div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="s_position" id="sex" value="น.2" required> น.2 <i class=""></i>
-                </label>
-              </div>
-            </div>
-            <input type="hidden" name="isAddShifts" value="true">
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" form="addShiftsForm" class="btn btn-primary">Add Shifts</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- modal calendar NOT WORK -->
-  <div class="modal fade" id="calendar" tabindex="-1" role="dialog" aria-labelledby="calendar">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="calendar">Add Shifts</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-          <?php
-            
-          ?>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary">OK</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
   </div>
 
 	<?php include_once("../template/footer.js.php"); ?>

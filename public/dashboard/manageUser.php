@@ -102,7 +102,7 @@
                         <th>Name</th>
                         <th>Tel</th>
                         <th>Sex</th>
-                        <th>Editor</th>
+                        <th></th>
                       </tr></thead>
                       <tbody>';
               $stmt = $conn->prepare("SELECT * FROM user WHERE user_id > 0");

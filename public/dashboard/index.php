@@ -17,7 +17,7 @@
 			<main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
 				<a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
 				<div class="page-header">
-					<h1>Dashboard</h1>
+					<h1>ยินดีต้อนรับ</h1>
 				</div>
 				<p class="lead"></p>
 				<hr>

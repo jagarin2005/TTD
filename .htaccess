@@ -13,6 +13,11 @@
     RewriteRule ^manageShifts$ dashboard/manageShifts.php
     RewriteRule ^manageAppoint$ dashboard/manageAppoint.php
     RewriteRule ^editUser$ dashboard/editUser.php
-    RewriteRule ^content(.*)$ content.php
+    RewriteRule ^staffAppoint$ dashboard/staffAppoint.php
+    RewriteRule ^staffShifts$ dashboard/staffShifts.php
+    RewriteRule ^userAppoint$ dashboard/userAppoint.php
+    RewriteRule ^userCheck$ dashboard/userCheck.php
+    RewriteRule ^staffCheck? dashboard/staffCheck.php
+    RewriteRule ^staffEditCheck? dashboard/staffEditCheck.php
     DirectoryIndex public/index.php
 </IfModule>
