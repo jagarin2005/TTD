@@ -14,6 +14,8 @@
       echo '<a href="/p/manageUser" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-user fa-fw"></i> <span class="hidden-sm-down">การจัดการผู้ใช้</span></a>
             <a href="/p/manageShifts" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-list fa-fw"></i> <span class="hidden-sm-down">วันที่เข้าปฏิบัติงาน</span></a>
             <a href="/p/manageAppoint" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-list fa-fw"></i> <span class="hidden-sm-down">การนัดและการจอง</span></a>
+            <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-list fa-fw"></i> <span class="hidden-sm-down">ดูบันทึกคะแนน</span></a>
+            <a href="#" id="setting" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-cog fa-fw"></i> <span class="hidden-sm-down">ตั้งค่า</span></a>
             ';
     }
     if($user->is_staff()) {
@@ -38,4 +40,7 @@
   $("#logout_side").click(function() {
     $("#logout").submit();
   });
+  $("#setting").hover(
+    function(){$(".fa-cog").toggleClass("fa-spin")}
+  )
 </script>

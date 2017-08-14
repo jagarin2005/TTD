@@ -45,8 +45,10 @@
                         <th>สถานะการจอง</th>
                       </tr></thead><tbody>';
               $stmt = $conn->prepare("SELECT b.booking_type, u.user_name, s.staff_name, b.booking_date, b.booking_note, b.booking_status
-                                      FROM `booking` b, `staff` s, `user` u
-                                      WHERE u.user_id = b.user_id AND s.staff_id = b.staff_id");
+                                      FROM `booking` b
+                                      INNER JOIN `staff` s ON s.staff_id = b.staff_id
+                                      INNER JOIN `user` u ON u.user_id = b.user_id
+                                      ");
               $stmt->execute();
               while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '<tr>

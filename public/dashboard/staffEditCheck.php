@@ -16,8 +16,11 @@
   $id = $_GET["q"];
   $uid = $_SESSION["id"];
   $stmt = $conn->prepare("SELECT * 
-                          FROM checklist c, booking b, staff s, user u
-                          WHERE s.staff_id = c.staff_id AND b.booking_id = c.booking_id AND s.user_id = :id AND u.user_id = c.user_id AND checklist_id=:cid");
+                          FROM checklist c
+                          INNER JOIN booking b ON b.booking_id = c.booking_id
+                          INNER JOIN staff s ON s.staff_id = c.staff_id
+                          INNER JOIN user u ON u.user_id = c.user_id
+                          WHERE s.user_id = :id AND checklist_id=:cid");
   $stmt->execute(array(":cid"=>$id,":id"=>$uid));
   $rowUpdate=$stmt->fetch(PDO::FETCH_ASSOC);
 

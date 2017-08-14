@@ -56,26 +56,6 @@
 			</main>
 		</div>
   </div>
-  
-  <!-- modal calendar NOT WORK -->
-  <div class="modal fade" id="calendar" tabindex="-1" role="dialog" aria-labelledby="calendar">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="calendar">Add Shifts</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-          <?php
-            
-          ?>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary">OK</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
 	<?php include_once("../template/footer.js.php"); ?>
 	<script>

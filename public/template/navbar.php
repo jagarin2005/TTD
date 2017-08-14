@@ -178,6 +178,7 @@ if($user->is_loggedin()){
     xmlhttp.open("GET","/p/public/template/bookForm.php?q="+str,true);
     xmlhttp.send();
   }
+
   function getStImage(val){
     if(window.XMLHttpRequest) {
       xmlhttp = new XMLHttpRequest();
@@ -192,6 +193,7 @@ if($user->is_loggedin()){
     xmlhttp.open("GET","/p/public/template/stImage.php?q="+val,true);
     xmlhttp.send();
   }
+  
   function getDtStaff(date) {
     if(window.XMLHttpRequest) {
       xmlhttp = new XMLHttpRequest();

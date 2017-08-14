@@ -4,8 +4,8 @@ var gulp = require('gulp')
 var sass = require('gulp-sass')
 var bs = require('browser-sync').create()
 
-gulp.task('sass', function() {
-  return gulp.src('./src/sass/**/*.scss')
+gulp.task('style', function() {
+  return gulp.src('./src/scss/**/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./public/css/'))
     .pipe(bs.stream())
@@ -15,7 +15,7 @@ gulp.task('browser-sync', function() {
   bs.init({
     proxy: 'localhost:8000/p/'
   })
-  gulp.watch('./src/sass/**/*.scss', ['sass'])
+  gulp.watch('./src/scss/**/*.scss', ['style'])
   gulp.watch('./public/**/*.php').on('change', bs.reload)
 })
 

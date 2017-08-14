@@ -1,8 +1,18 @@
 <?php include_once("../config/conn.php"); ?>
 <!DOCTYPE html>
 <html>
-<?php include_once('./template/head.php'); ?>
-<body>
+<?php 
+  ob_start();
+  include_once('./template/head.php'); 
+  $buffer = ob_get_contents();
+  ob_end_clean();
+
+  $title = "หน้าหลัก";
+  $buffer = preg_replace('/(<title>)(.*?)(<\/title>)/i','$1' . $title . '$3', $buffer);
+
+  echo $buffer;
+?>
+<body data-spy="scroll" data-target="#navbarSupportedContent" data-offset="50">
   <?php include_once('./template/navbar.php'); ?>
   <?php 
       include_once('./template/cover.php');
@@ -30,7 +40,7 @@
           </div>
         </div>
         <div class="card">
-          <img class="card-img-top img-fluid" width="335" height="370" src="/p/public/img/product/c120.jpg" alt="Card image cap">
+          <img class="card-img-top img-fluid" src="/p/public/img/product/c120.jpg" alt="Card image cap">
           <div class="card-block">
              <h4 class="card-title">ชุดของที่ระลึก จากผลิตภัณฑ์แปรรูปจากสมุนไพร</h4>
             <p class="card-text">จำหน่ายโดย การแพทย์แผนไทยประยุกต์ วิทยาลัยนานาชาติพระนคร มหาวิทยาลัยราชภัฏพระนคร</p>
@@ -65,7 +75,6 @@
       </div>
     </div>
   </div>
-      
 
   <div id="fb-root"></div>
   <script>

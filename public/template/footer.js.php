@@ -22,5 +22,11 @@
       }, 500);
     });
   }
+
+  $('body').scrollspy({ target: '#navbarSupportedContent'});
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
   
 </script>

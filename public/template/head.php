@@ -4,12 +4,13 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
   <title></title>
-  <link rel="apple-touch-icon" sizes="180x180" href="./img/favicons/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="./img/favicons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./img/favicons/favicon-16x16.png">
-  <link rel="manifest" href="./img/favicons/manifest.json">
-  <link rel="mask-icon" href="./img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="apple-touch-icon" sizes="180x180" href="./public/img/favicons_2/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./public/img/favicons_2/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./public/img/favicons_2/favicon-16x16.png">
+  <link rel="manifest" href="./public/img/favicons_2/manifest.json">
+  <link rel="mask-icon" href="./public/img/favicons_2/safari-pinned-tab.svg" color="#5bbad5">
   <link rel="stylesheet" href="./public/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="./public/css/bootstrap.min.css">

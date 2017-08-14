@@ -96,7 +96,6 @@
                   <table id="user_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                       <tr>
-                        <th>ID</th>
                         <th>Email</th>
                         <th>Type</th>
                         <th>Name</th>
@@ -109,7 +108,6 @@
               $stmt->execute();
               while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '<tr>
-                        <td>'. $row["user_id"] .'</td>
                         <td>'. $row["user_email"] .'</td>
                         <td>'. $row["user_role"] .'</td>
                         <td>'. $row["user_name"] .'</td>

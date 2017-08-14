@@ -37,21 +37,24 @@
                         <th>เจ้าหน้าที่</th>
                         <th>จองวันที่</th>
                         <th>อาการ</th>
+                        <th>การรักษา</th>
                         <th>ผลการรักษา</th>
-                        <th>รายละเอียด</th>
                       </tr></thead><tbody>';
                       $id = $_SESSION["id"];
               $stmt = $conn->prepare("SELECT s.staff_name, b.booking_date, b.booking_note, b.booking_status,b.booking_type,c.check_status, c.checklist_note, u.user_name
-                                      FROM checklist c, booking b, staff s, user u
-                                      WHERE s.staff_id = c.staff_id AND b.booking_id = c.booking_id AND u.user_id = :id");
+                                      FROM checklist c
+                                      INNER JOIN booking b ON b.booking_id = c.booking_id
+                                      INNER JOIN staff s ON s.staff_id = c.staff_id
+                                      INNER JOIN user u ON u.user_id = c.user_id
+                                      WHERE c.user_id = :id");
               $stmt->execute(array(":id"=>$id));
               while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '<tr>
                         <td>'. $row["staff_name"] .'</td>
                         <td>'. $row["booking_date"] .'</td>
                         <td>'. $row["booking_note"] .'</td>
-                        <td>'. $row["check_status"] .'</td>
                         <td>'. $row["checklist_note"] .'</td>
+                        <td>'. $row["check_status"] .'</td>
                       </tr>';
               }
               echo '   </tbody>

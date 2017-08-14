@@ -13,7 +13,17 @@
 ?>
 <!DOCTYPE html>
 <html>
-<?php include_once('./template/head.php') ?>
+<?php 
+  ob_start();
+  include_once('./template/head.php'); 
+  $buffer = ob_get_contents();
+  ob_end_clean();
+
+  $title = "เข้าสู่ระบบ";
+  $buffer = preg_replace('/(<title>)(.*?)(<\/title>)/i','$1' . $title . '$3', $buffer);
+
+  echo $buffer;
+?>
 <body>
   <?php include_once('./template/navbar.php') ?>
   <div class="wrapper py-5" style="background: #eceeef;">

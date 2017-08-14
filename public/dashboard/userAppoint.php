@@ -56,8 +56,10 @@
                         <th></th>
                       </tr></thead><tbody>';
               $stmt = $conn->prepare("SELECT b.booking_id, u.user_name, s.staff_name, b.booking_date, b.booking_note, b.booking_status, b.booking_type
-                                      FROM `booking` b, `staff` s, `user` u
-                                      WHERE u.user_id = b.user_id AND s.staff_id = b.staff_id AND u.user_id = :uid AND b.booking_date >= :now;");
+                                      FROM `booking` b
+                                      INNER JOIN `staff` s ON s.staff_id = b.staff_id
+                                      INNER JOIN `user` u ON u.user_id = b.user_id
+                                      WHERE u.user_id = :uid AND b.booking_date >= :now;");
               $stmt->execute(array(":now"=>date('Y-m-d'), ":uid"=>$_SESSION["id"]));
               while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '<tr>
@@ -70,7 +72,7 @@
                           if($row["booking_status"] == 'รอการยืนยัน'){
                             echo '<a class="text-danger" href="#" data-toggle="modal" data-target="#del_appoint" data-bid="'. $row["booking_id"] .'" title="ยกเลิกการจอง"><i class="fa fa-close"></i></a>';
                           }else if($row["booking_status"] == 'ยืนยันแล้ว'){
-                            echo '<a class="text-muted" title="ยกเลิกการจอง"><i class="fa fa-close"></i></a>';
+                            echo '<a class="text-success"><i class="fa fa-check"></i></a>';
                           }
                           echo '</td>
                       </tr>';
