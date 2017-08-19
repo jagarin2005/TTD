@@ -3,7 +3,7 @@
   if(!$user->is_loggedin()) {
 		$user->redirect("/p/");
 	}
-	if($user->is_staff()){
+	if(!$user->is_user()){
     $user->redirect("/p/dashboard");
     exit();
   }
@@ -31,7 +31,7 @@
 					<div class="col-md-12">
 						<?php 
               echo '
-                  <table id="booking_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                  <table id="booking_table" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th>เจ้าหน้าที่</th>
@@ -43,19 +43,21 @@
                       $id = $_SESSION["id"];
               $stmt = $conn->prepare("SELECT s.staff_name, b.booking_date, b.booking_note, b.booking_status,b.booking_type,c.check_status, c.checklist_note, u.user_name
                                       FROM checklist c
-                                      INNER JOIN booking b ON b.booking_id = c.booking_id
+                                      LEFT JOIN booking b ON b.booking_id = c.booking_id
                                       INNER JOIN staff s ON s.staff_id = c.staff_id
                                       INNER JOIN user u ON u.user_id = c.user_id
                                       WHERE c.user_id = :id");
               $stmt->execute(array(":id"=>$id));
               while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo '<tr>
-                        <td>'. $row["staff_name"] .'</td>
-                        <td>'. $row["booking_date"] .'</td>
-                        <td>'. $row["booking_note"] .'</td>
-                        <td>'. $row["checklist_note"] .'</td>
-                        <td>'. $row["check_status"] .'</td>
-                      </tr>';
+                if($row["check_status"] != ""){
+                  echo '<tr>
+                          <td>'. $row["staff_name"] .'</td>
+                          <td>'. $row["booking_date"] .'</td>
+                          <td>'. $row["booking_note"] .'</td>
+                          <td>'. $row["checklist_note"] .'</td>
+                          <td>'. $row["check_status"] .'</td>
+                        </tr>';
+                }
               }
               echo '   </tbody>
                   </table>

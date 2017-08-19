@@ -3,11 +3,11 @@
   if(!$user->is_loggedin()) {
 		$user->redirect("/p/");
 	}
-	if($user->is_staff()){
+	if(!$user->is_user()){
     $user->redirect("/p/dashboard");
     exit();
   }
-  if($_SERVER["REQUEST_METHOD"]) {
+  if($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST["isDelAppoint"])){
       try{
         $id = $_POST["del"];
@@ -20,6 +20,46 @@
       unset($_POST["isDelAppoint"]);
       $user->redirect("/p/userAppoint");
       exit();
+		}
+
+		if(isset($_POST["isPostpone"])){
+      $id = trim($_POST["uid"]);
+      $select = trim($_POST["select"]);
+      $date = trim($_POST["book_date"]);
+      $note = trim($_POST["book_note"]);
+      $bid2 = trim($_POST["bid2"]);
+      $cstatus = "ยกเลิกการนัดหมาย";
+      $bstatus = "ยกเลิกแล้ว";
+      $status = "รอการยืนยัน";
+      $type = "จอง";
+      
+      if($select == "" || $select == "..."){
+        $error[] = "กรุณาเลือกการจอง";
+      }else if($date == "") {
+        $error[] = "กรุณาใส่วันที่";
+      }else{
+        try{
+          
+            $stmtoChecklist = $conn->prepare("SELECT * FROM checklist WHERE booking_id = :bid2");
+            $stmtoChecklist->execute(array(":bid2"=>$bid2));
+            $rowoChecklist = $stmtoChecklist->fetch(PDO::FETCH_ASSOC);
+            $stmtDeloChecklist = $conn->prepare("UPDATE checklist SET check_status = :cstatus WHERE checklist_id = :cid");
+            $stmtDeloChecklist->execute(array(":cstatus"=>$cstatus,":cid"=>$rowoChecklist["checklist_id"]));                           
+            $stmtPostpone = $conn->prepare("INSERT INTO booking(user_id, staff_id, booking_date, booking_note, booking_status, booking_type) 
+                                            VALUES (:id, :staff, :date, :note, :status, :type)
+                                          ");    
+            $stmtPostpone->execute(array(":id"=>$id,":staff"=>$select, ":date"=>$date, ":note"=>$note, ":status"=>$status, ":type"=>$type));
+            $stmtDeloBook = $conn->prepare("DELETE FROM booking WHERE booking_id = :obid");
+            $stmtDeloBook = $conn->prepare("UPDATE booking SET booking_status = :bstatus WHERE booking_id = :obid");
+            $stmtDeloBook->execute(array(":bstatus"=>$bstatus,":obid"=>$bid2));
+            unset($_POST["isPostpone"],$_POST["uid"],$_POST["select"],$_POST["book_date"],$_POST["book_note"],$id,$select,$date,$note);
+            $user->redirect("/p/userAppoint");
+            exit();
+          
+        }catch(PDOException $e){
+          echo $e->getMessage();
+        }
+      }
     }
   }
 ?>
@@ -45,7 +85,7 @@
 					<div class="col-md-12">
 						<?php 
               echo '
-                  <table id="booking_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                  <table id="booking_table" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th>ประเภท</th>
@@ -62,6 +102,9 @@
                                       WHERE u.user_id = :uid AND b.booking_date >= :now;");
               $stmt->execute(array(":now"=>date('Y-m-d'), ":uid"=>$_SESSION["id"]));
               while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
+                $stmtCheck = $conn->prepare("SELECT check_status AS status FROM checklist WHERE booking_id = :bid");
+                $stmtCheck->execute(array(":bid"=>$row["booking_id"]));
+                $rowCheck = $stmtCheck->fetch(PDO::FETCH_ASSOC);
                 echo '<tr>
                         <td>'. $row["booking_type"] .'</td>
                         <td>'. $row["staff_name"] .'</td>
@@ -69,10 +112,21 @@
                         <td>'. $row["booking_note"] .'</td>
                         <td>'. $row["booking_status"] .'</td>
                         <td class="text-center">';
-                          if($row["booking_status"] == 'รอการยืนยัน'){
+                          if($rowCheck["status"] != ""){
+                            echo '<a class="text-success" title="ใช้บริการแล้ว"><i class="fa fa-check fa-fw"></i></a>';
+                          }
+                          else if($row["booking_status"] == 'รอการยืนยัน'){
                             echo '<a class="text-danger" href="#" data-toggle="modal" data-target="#del_appoint" data-bid="'. $row["booking_id"] .'" title="ยกเลิกการจอง"><i class="fa fa-close"></i></a>';
+                          }else if($row["booking_status"] == "ยกเลิกแล้ว"){
+                            echo '<a class="text-danger"><i class="fa fa-check fa-fw"></i></a>';
+                          }else if($row["booking_type"] == "นัด"){
+                            echo '<a class="text-info" data-toggle="modal" data-target="#postpone_appoint" data-bid2="'.$row["booking_id"].'" style="cursor: pointer;"><i class="fa fa-pencil-square-o fa-fw"></i></a>';
                           }else if($row["booking_status"] == 'ยืนยันแล้ว'){
                             echo '<a class="text-success"><i class="fa fa-check"></i></a>';
+                          }else if($row["booking_status"] == 'ยกเลิกการจอง') {
+                            echo '<a class="text-danger"><i class="fa fa-close"></i></a>';
+                          }else{
+                            echo '<span>เกิดข้อผิดพลาด</span>';
                           }
                           echo '</td>
                       </tr>';
@@ -95,7 +149,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="delShifts">Delete Booking</h5>
+          <h5 class="modal-title" id="delAppoint">Delete Booking</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -106,8 +160,44 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" form="delAppointForm" class="btn btn-primary">Delete Booking</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" form="delAppointForm" class="btn btn-primary">Delete Booking</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- postpone appointment -->
+  <div class="modal fade" id="postpone_appoint" tabindex="-1" role="dialog" aria-labelledby="postponeAppoint">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="post">Postpone Appointment</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="" name="postponeAppoint" id="postponeAppointForm">
+						<div class="form-group text-center">
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input class="form-check-input" type="radio" name="switch_book" value="st" onclick="getSelectBooking2(this.value)"> เลือกจากรายชื่อแพทย์
+								</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input class="form-check-input" type="radio" name="switch_book" value="dt" onclick="getSelectBooking2(this.value)"> เลือกจากวันที่
+								</label>
+							</div>
+							<div id="bookForm2"></div>
+						</div>
+            <input type="hidden" name="isPostpone" value="true">
+            <input type="hidden" name="bid2" id="bookingid" value="">
+            <input type="hidden" name="uid" value="<?php echo $_SESSION["id"]; ?>">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" form="postponeAppointForm" class="btn btn-primary">Submit</button>
         </div>
       </div>
     </div>
@@ -123,7 +213,59 @@
       var res = button.data('bid')
       var modal = $(this)
       modal.find('#del_').val(res)
+    });
+    $('#postpone_appoint').on('show.bs.modal', function (event) {
+      var button2 = $(event.relatedTarget)
+      var res2 = button2.data('bid2')
+      var modal2 = $(this)
+      modal2.find('#bookingid').val(res2);
     })
-  </script>
+	</script>
+	<script>
+  function getSelectBooking2(str){
+    if(window.XMLHttpRequest) {
+      xmlhttp = new XMLHttpRequest();
+    } else {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+      if(this.readyState == 4 && this.status == 200) {
+        document.getElementById("bookForm2").innerHTML = this.responseText;
+      }
+    }
+    xmlhttp.open("GET","/p/public/template/bookForm.php?q="+str,true);
+    xmlhttp.send();
+  }
+
+  function getStImage2(val){
+    if(window.XMLHttpRequest) {
+      xmlhttp = new XMLHttpRequest();
+    } else {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+      if(this.readyState == 4 && this.status == 200) {
+        document.getElementById("stImage").innerHTML = this.responseText;
+      }
+    }
+    xmlhttp.open("GET","/p/public/template/stImage.php?q="+val,true);
+    xmlhttp.send();
+  }
+  
+  function getDtStaff2(date) {
+    if(window.XMLHttpRequest) {
+      xmlhttp = new XMLHttpRequest();
+    } else {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+      if(this.readyState == 4 && this.status == 200) {
+        document.getElementById("dtStaff").innerHTML = this.responseText;
+      }
+    }
+    xmlhttp.open("GET", "/p/public/template/dtStaff.php?q="+date, true);
+    xmlhttp.send();
+  }
+</script>
 </body>
 </html>

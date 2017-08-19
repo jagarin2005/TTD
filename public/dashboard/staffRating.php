@@ -6,7 +6,7 @@
   if(!$user->is_loggedin()) {
 		$user->redirect("/p/");
 	}
-  if($user->is_user()){
+  if(!$user->is_staff()){
     $user->redirect("/p/");
   }
 ?>
@@ -23,12 +23,18 @@
 			<main class="col-12 col-sm-12 col-md-9 col-lg-10 float-left px-5 pl-md-2 pt-2 main">
 				<a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
 				<div class="page-header">
-					<h1>วันที่เข้าปฏิบัติงาน</h1>
+					<h1>ดูคะแนน</h1>
 				</div>
 				<?php if(isset($error)){while($error){ echo $error; }} ?>
 				<p class="lead"></p>
-				<hr>
+        <hr>
 				<div class="row">
+          <?php  
+            $stmtScore = $conn->prepare("SELECT * FROM score WHERE staff_id = :staff");
+            $stmtScore->execute(array(":staff"=>$_SESSION["staff"]));
+            $rowScore = $stmtScore->fetch(PDO::FETCH_ASSOC);
+          ?>
+          <div class="col-md-12"><p>คะแนนเฉลี่ย : <?php echo $rowScore["score_score"]; ?></p></div>
 					<div class="col-md-12">
 						<?php 
               echo '
@@ -36,15 +42,23 @@
                     <thead>
                       <tr>
                         <th>วันที่</th>
-                        <th>หน้าที่</th>
+                        <th>ผู้ใช้</th>
+                        <th>คำติชม</th>
+                        <th>คะแนน</th>
                       </tr></thead><tbody>';
-              $id = $_SESSION["id"];
-              $stmt = $conn->prepare("SELECT shifts.s_date, shifts.s_position FROM shifts INNER JOIN staff ON shifts.staff_id = staff.staff_id WHERE staff.user_id = :id");
-              $stmt->execute(array(":id"=>$id));
+              $stmt = $conn->prepare("SELECT sl.*, booking_date, user_name 
+                                      FROM scorelog sl
+                                      INNER JOIN user u ON u.user_id = sl.user_id
+                                      INNER JOIN booking b ON b.booking_id = sl.booking_id 
+                                      WHERE sl.staff_id = :staff
+                                    ");
+              $stmt->execute(array(":staff"=>$_SESSION["staff"]));
               while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '<tr>
-                        <td>'. $row["s_date"] .'</td>
-                        <td>'. $row["s_position"] .'</td>
+                        <td>'. $row["booking_date"] .'</td>
+                        <td>'. $row["user_name"] .'</td>
+                        <td>'. $row["sl_note"] .'</td>
+                        <td>'. $row["sl_score"] .'</td>
                       </tr>';
               }
               echo '   </tbody>

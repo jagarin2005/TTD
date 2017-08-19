@@ -43,7 +43,15 @@
             $stmt2->bindParam(":tel",$tel);
             $stmt2->bindParam(":uid",$uid);
             $stmt2->execute();
+            $stmtStaff = $this->db->prepare("SELECT * FROM staff WHERE staff_email LIKE :semail");
+            $stmtStaff->bindParam(":semail", $email);
+            $stmtStaff->execute();
+            $rowStaff = $stmtStaff->fetch(PDO::FETCH_ASSOC);
+            $stmtInsScore = $this->db->prepare("INSERT INTO score VALUES (:staff, 0, 0)");
+            $stmtInsScore->bindParam(":staff", $rowStaff["staff_id"]);
+            $stmtInsScore->execute();
           }
+          
         }
       } catch(PDOException $e) {
         echo $e->getMessage();
@@ -145,6 +153,12 @@
             $_SESSION['email'] = $userRow['user_email'];
             $_SESSION['name'] = $userRow['user_name'];
             $_SESSION['role'] = $userRow['user_role'];
+            if($userRow["user_role"] == "staff"){
+              $stmtRoleStaff = $this->db->prepare("SELECT staff_id FROM staff WHERE user_id = :id");
+              $stmtRoleStaff->execute(array(":id"=>$userRow["user_id"]));
+              $rowRoleStaff = $stmtRoleStaff->fetch(PDO::FETCH_ASSOC);
+              $_SESSION["staff"] = $rowRoleStaff["staff_id"];
+            }
             return true;
           }
           else{

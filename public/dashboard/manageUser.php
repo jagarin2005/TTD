@@ -3,11 +3,7 @@
   if(!$user->is_loggedin()) {
 		$user->redirect("/p/");
 	}
-	if($user->is_staff()){
-    $user->redirect("/p/dashboard");
-    exit();
-  }
-  if($user->is_user()){
+	if(!$user->is_admin()){
     $user->redirect("/p/");
   }
 
@@ -93,7 +89,7 @@
 					<div class="col-md-12">
 						<?php 
               echo '
-                  <table id="user_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                  <table id="user_table" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th>Email</th>
@@ -182,8 +178,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" form="addUserForm" class="btn btn-primary">Add User</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" form="addUserForm" class="btn btn-primary">Add User</button>
         </div>
       </div>
     </div>
@@ -205,8 +201,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" form="delUserForm" class="btn btn-primary">Delete User</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" form="delUserForm" class="btn btn-primary">Delete User</button>
         </div>
       </div>
     </div>

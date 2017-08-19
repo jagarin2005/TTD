@@ -1,8 +1,10 @@
 <?php include_once("../config/conn.php") ?>
-<?php
-  if($user->is_loggedin()){
+<?php 
+  if($user->is_loggedin()) {
     $user->redirect("/p/");
   }
+?>
+<?php
   if($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST["eml"]);
     $name = trim($_POST["name"]);
@@ -72,12 +74,12 @@
       <div class="row justify-content-center">
         <div class="col-sm-10 col-md-8 col-lg-5 col-offset-3">
           <div class="card px-3">
-            <div class="card-block">
+            <div class="card-body">
               <h3 class="card-title py-3 text-center"><i class="fa fa-id-card-o"></i> สมัครสมาชิก</h3>
               <form method="post" action="" name="register">
                 <div class="form-group row" id="name_">
                   <div class="col-12">
-                    <input class="form-control form-control-lg" type="text" name="name" value="" placeholder="ชื่อ - นามสกุล" required>
+                    <input class="form-control form-control-lg" type="text" name="name" value="" placeholder="ชื่อ - นามสกุล" autofocus required>
                   </div>
                 </div>
                 <div class="form-group row" id="email_">

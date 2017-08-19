@@ -17,7 +17,12 @@
     RewriteRule ^staffShifts$ dashboard/staffShifts.php
     RewriteRule ^userAppoint$ dashboard/userAppoint.php
     RewriteRule ^userCheck$ dashboard/userCheck.php
-    RewriteRule ^staffCheck? dashboard/staffCheck.php
+    RewriteRule ^staffCheck$ dashboard/staffCheck.php
     RewriteRule ^staffEditCheck? dashboard/staffEditCheck.php
+    RewriteRule ^userRating$ dashboard/userRating.php
+    RewriteRule ^checkRating$ dashboard/checkRating.php
+    RewriteRule ^staffRating$ dashboard/staffRating.php
+    RewriteRule ^setting$ dashboard/setting.php
+    RewriteRule ^rank$ dashboard/rank.php
     DirectoryIndex public/index.php
 </IfModule>

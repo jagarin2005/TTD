@@ -2,7 +2,8 @@
 <?php 
   if(!$user->is_loggedin()) {
 		$user->redirect("/p/");
-	}
+  }
+  
   if(isset($_GET["q"]) && isset($_GET["w"])){
     $id = $_GET["w"];
     if($_GET["q"] == "true"){
@@ -24,6 +25,26 @@
     exit();
   }
 
+  if(isset($_POST["cid"])) {
+    try{
+      $updateCheck = $conn->prepare("UPDATE checklist SET check_status = :status, checklist_note = :note WHERE checklist_id = :id");
+      $updateCheck->execute(array(":status"=>$_POST["check_status"], ":note"=>$_POST["checklist_note"], ":id"=>$rowUpdate["checklist_id"]));
+      $check = $conn->prepare("SELECT check_status FROM checklist WHERE checklist_id = :id");
+      $check->execute(array(":id"=>$id));
+      $result = $check->fetch(PDO::FETCH_ASSOC);
+      if($result["check_status"] != ''){
+        $insScore = $conn->prepare("INSERT INTO scorelog(staff_id, user_id, booking_id, checklist_id) VALUE (:staff,:user,:booking,:checklist)");
+        $insScore->execute(array(":staff"=>$rowUpdate["staff_id"], ":user"=>$rowUpdate["user_id"], ":booking"=>$rowUpdate["booking_id"], ":checklist"=>$rowUpdate["checklist_id"] ));
+        $insScore->execute();
+      }
+      $user->redirect("/p/staffCheck");
+      unset($_GET["q"]);
+      exit();
+    }catch(PDOException $e){
+      echo $e->getMessage();
+    }
+  }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,7 +56,7 @@
 				
 			<?php include_once("../template/dashboard/sidebar.php"); ?>
 			
-			<main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
+			<main class="col-12 col-sm-12 col-md-9 col-lg-10 float-left px-5 pl-md-2 pt-2 main">
 				<a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
 				<div class="page-header">
 					<h1>การนัดและการจอง</h1>
@@ -48,7 +69,7 @@
 					<div class="col-md-12">
 						<?php 
               echo '
-                  <table id="shifts_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                  <table id="shifts_table" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th>ประเภท</th>

@@ -9,7 +9,7 @@
   }
   echo '</select></div>';
   echo '<div class="px-5 py-1">
-  <textarea name="book_note" class="form-control" rows="3" cols="" placeholder="อธิบายอาการ..."></textarea>
+  <textarea name="book_note" class="form-control" rows="3" cols="" placeholder="อธิบายอาการหรือหมายเหตุ..."></textarea>
 </div>';
 ?>
 

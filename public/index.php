@@ -7,7 +7,7 @@
   $buffer = ob_get_contents();
   ob_end_clean();
 
-  $title = "หน้าหลัก";
+  $title = "พระนครคลินิกการแพทย์แผนไทยประยุกต์";
   $buffer = preg_replace('/(<title>)(.*?)(<\/title>)/i','$1' . $title . '$3', $buffer);
 
   echo $buffer;
@@ -25,7 +25,7 @@
       <div class="card-deck" id="product">
         <div class="card">
           <img class="card-img-top img-fluid" src="/p/public/img/product/c79.jpg" alt="Card image cap">
-          <div class="card-block">
+          <div class="card-body">
             <h4 class="card-title">ชุดของที่ระลึก จากผลิตภัณฑ์แปรรูปจากสมุนไพร</h4>
             <p class="card-text">จำหน่ายโดย การแพทย์แผนไทยประยุกต์ วิทยาลัยนานาชาติพระนคร มหาวิทยาลัยราชภัฏพระนคร</p>
             <p class="card-text">ราคา 79 บาท <span class="float-right">ติดต่อ...<a href="https://www.facebook.com/commerce/products/1572770876087037/?rid=2434901829898387&rt=6" style="color: rgba(59,89,152,1);"><i class="fa fa-facebook-square fa-2x fa-fw"></i></a></span></p>
@@ -33,7 +33,7 @@
         </div>
         <div class="card">
           <img class="card-img-top img-fluid" src="/p/public/img/product/c100.jpg" alt="Card image cap">
-          <div class="card-block">
+          <div class="card-body">
              <h4 class="card-title">ชุดของที่ระลึก จากผลิตภัณฑ์แปรรูปจากสมุนไพร</h4>
             <p class="card-text">จำหน่ายโดย การแพทย์แผนไทยประยุกต์ วิทยาลัยนานาชาติพระนคร มหาวิทยาลัยราชภัฏพระนคร</p>
             <p class="card-text">ราคา 100 บาท  <span class="float-right">ติดต่อ...<a href="https://www.facebook.com/commerce/products/1096944553702802/?rid=2434901829898387&rt=6" style="color: rgba(59,89,152,1);"><i class="fa fa-facebook-square fa-2x fa-fw"></i></a></span></p>
@@ -41,7 +41,7 @@
         </div>
         <div class="card">
           <img class="card-img-top img-fluid" src="/p/public/img/product/c120.jpg" alt="Card image cap">
-          <div class="card-block">
+          <div class="card-body">
              <h4 class="card-title">ชุดของที่ระลึก จากผลิตภัณฑ์แปรรูปจากสมุนไพร</h4>
             <p class="card-text">จำหน่ายโดย การแพทย์แผนไทยประยุกต์ วิทยาลัยนานาชาติพระนคร มหาวิทยาลัยราชภัฏพระนคร</p>
             <p class="card-text">ราคา 120 บาท  <span class="float-right">ติดต่อ...<a href="https://www.facebook.com/commerce/products/1359561494092406/?rid=2434901829898387&rt=6" style="color: rgba(59,89,152,1);"><i class="fa fa-facebook-square fa-2x fa-fw"></i></a></span></p>

@@ -3,11 +3,7 @@
   if(!$user->is_loggedin()) {
 		$user->redirect("/p/");
 	}
-	if($user->is_staff()){
-    $user->redirect("/p/dashboard");
-    exit();
-  }
-  if($user->is_user()){
+	if(!$user->is_admin()){
     $user->redirect("/p/");
   }
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -76,7 +72,7 @@
 					<div class="col-md-12">
 						<?php 
               echo '
-                  <table id="shifts_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                  <table id="shifts_table" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th>เจ้าหน้าที่</th>
@@ -157,14 +153,14 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" form="addShiftsForm" class="btn btn-primary">Add Shifts</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" form="addShiftsForm" class="btn btn-primary">Add Shifts</button>
         </div>
       </div>
     </div>
   </div>
 
-<!-- Modal delete -->
+<!-- Modal delete shifts -->
   <div class="modal fade" id="del_shifts" tabindex="-1" role="dialog" aria-labelledby="delShifts">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -180,8 +176,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" form="delShiftsForm" class="btn btn-primary">Delete Shifts</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" form="delShiftsForm" class="btn btn-primary">Delete Shifts</button>
         </div>
       </div>
     </div>

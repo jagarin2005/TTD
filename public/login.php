@@ -1,5 +1,10 @@
 <?php include_once("../config/conn.php") ?>
 <?php 
+  if($user->is_loggedin()) {
+    $user->redirect("/p/");
+  }
+?>
+<?php 
   if($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["eml"];
     $password = $_POST["pwd"];
@@ -31,13 +36,13 @@
       <div class="row justify-content-center">
         <div class="col-sm-10 col-md-8 col-lg-5 col-offset-3">
           <div class="card px-3">
-            <div class="card-block">
+            <div class="card-body">
               <h3 class="card-title py-3 text-center"><i class="fa fa-sign-in"></i> เข้าสู่ระบบ</h3>
               <form method="post" action="" name="login">
                 <div class="form-group row">
                   <!-- <label for="" class="col-md-3 col-form-label">ชื่อผู้ใช้</label> -->
                   <div class="col-12">
-                    <input class="form-control form-control-lg" type="email" name="eml" value="" placeholder="อีเมล์">
+                    <input class="form-control form-control-lg" type="email" name="eml" value="" placeholder="อีเมล์" autofocus>
                   </div>
                 </div>
                 <div class="form-group row">

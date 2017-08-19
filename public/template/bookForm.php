@@ -10,7 +10,7 @@
     <select class="form-control" name="select" onchange="getStImage(this.value)" required>
       <option selected>...</option>';
       while($row=$stmt->fetch(PDO::FETCH_ASSOC)){
-        echo '<option value="'.$row["staff_id"].'">'.$row["staff_name"].'</option>';
+        echo '<option value="'.$row["staff_id"].'">' . $row["staff_name"] . '</option>';
       }
     echo 
     '</select></div>';

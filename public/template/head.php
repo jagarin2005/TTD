@@ -13,13 +13,15 @@
   <link rel="mask-icon" href="./public/img/favicons_2/safari-pinned-tab.svg" color="#5bbad5">
   <link rel="stylesheet" href="./public/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="./public/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./public/css/bootstrap-reboot.css">
+  <link rel="stylesheet" href="./public/css/bootstrap-grid.css">
+  <link rel="stylesheet" href="./public/css/bootstrap.css">
   <link rel="stylesheet" href="./public/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="./public/css/style.css" type="text/css">
   
   <script src="./public/js/jquery-3.2.1.min.js"></script>
   <script src="./public/js/jquery.dataTables.min.js"></script>
   <script src="./public/js/dataTables.bootstrap4.min.js"></script>
-  <script src="./public/js/tether.min.js"></script>
+  <script src="./public/js/popper.min.js"></script>
   <script src="./public/js/bootstrap.min.js"></script>
 </head>
