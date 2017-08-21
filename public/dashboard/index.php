@@ -22,8 +22,51 @@
 				<p class="lead"></p>
 				<hr>
 				<div class="row">
-					<div class="col-md-12">
-						
+					<div class="col-md-6 mx-auto">
+						<?php 
+							$stmt = $conn->prepare("SELECT * FROM user WHERE user_id = :id");
+							$stmt->bindParam(":id", $_SESSION["id"]);
+							$stmt->execute();
+							$row = $stmt->fetch(PDO::FETCH_ASSOC);
+						?>
+						<div class="card">
+							<h4 class="card-header">ข้อมูลส่วนตัว</h4>
+							<div class="card-body">
+								<form action="/p/mail" method="post">
+									<div class="form-group row">
+										<label for="staticName" class="col-sm-4 col-lg-3 col- col-form-label">Name</label>
+										<div class="col-sm-8 col-lg-9">
+											<input type="text" readonly class="form-control-plaintext" id="staticName" value="<?php echo $row["user_name"]; ?>">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="staticEmail" class="col-sm-4 col-lg-3 col-form-label">Email</label>
+										<div class="col-sm-8 col-lg-9">
+											<input type="text" readonly class="form-control-plaintext" id="staticEmail" value="<?php echo $row["user_email"]; ?>">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="staticTel" class="col-sm-4 col-lg-3 col-form-label">Tel.</label>
+										<div class="col-sm-8 col-lg-9">
+											<input type="text" readonly class="form-control-plaintext" id="staticTel" value="<?php echo $row["user_tel"]; ?>">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="staticSex" class="col-sm-4 col-lg-3 col-form-label">Sex</label>
+										<div class="col-sm-8 col-lg-9">
+											<input type="text" readonly class="form-control-plaintext" id="staticSex" value="<?php echo $row["user_sex"]; ?>">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="staticRole" class="col-sm-4 col-lg-3 col-form-label">Role</label>
+										<div class="col-sm-8 col-lg-9">
+											<input type="text" readonly class="form-control-plaintext" id="staticRole" value="<?php echo $row["user_role"]; ?>">
+										</div>
+									</div>
+									<button type="submit" class="btn btn-primary" name="mailer" value="true">test mailer</button>
+								</form>
+							</div>
+						</div>
 					</div>
 				</div>
 			</main>

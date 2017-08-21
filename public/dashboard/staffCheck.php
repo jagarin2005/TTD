@@ -3,8 +3,8 @@
   if(!$user->is_loggedin()) {
 		$user->redirect("/p/");
 	}
-	if($user->is_user()){
-    $user->redirect("/p/dashboard");
+	if(!$user->is_staff()){
+    $user->redirect("/p/");
     exit();
   }
 

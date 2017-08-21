@@ -24,5 +24,7 @@
     RewriteRule ^staffRating$ dashboard/staffRating.php
     RewriteRule ^setting$ dashboard/setting.php
     RewriteRule ^rank$ dashboard/rank.php
+
+    RewriteRule ^mail$ dashboard/mail.php
     DirectoryIndex public/index.php
 </IfModule>

@@ -112,7 +112,7 @@
       ________________________________________________
       '; // edit link 3*
 
-      $headers = 'From:jakarin.ij66@onru.ac.th'."\r\n";
+      $headers = 'From:jakarin.ij66@pnru.ac.th'."\r\n";
       mail($to, $subject, $message, $headers);
     }
 

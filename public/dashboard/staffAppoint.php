@@ -3,6 +3,9 @@
   if(!$user->is_loggedin()) {
 		$user->redirect("/p/");
   }
+  if(!$user->is_staff()) {
+    $user->redirect("/p/");
+  }
   
   if(isset($_GET["q"]) && isset($_GET["w"])){
     $id = $_GET["w"];

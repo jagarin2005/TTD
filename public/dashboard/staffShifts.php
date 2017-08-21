@@ -6,7 +6,7 @@
   if(!$user->is_loggedin()) {
 		$user->redirect("/p/");
 	}
-  if($user->is_user()){
+  if(!$user->is_staff()){
     $user->redirect("/p/");
   }
 ?>

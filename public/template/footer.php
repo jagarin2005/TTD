@@ -4,20 +4,11 @@
   <div class="container px-5">
     <div class="row">
       <div class="col-6 col-sm-6 col-md-4 pb-3">
-        <h3>Head 1</h3>
-        <ul>
-          <li><a href="">Text 1</a></li>
-          <li><a href="">Text 2</a></li>
-          <li><a href="">Text 3</a></li>
-        </ul>
+        
+        
       </div>
       <div class="col-6 col-sm-6 col-md-4 pb-3">
-        <h3>Head 1</h3>
-        <ul>
-          <li><a href="">Text 1</a></li>
-          <li><a href="">Text 2</a></li>
-          <li><a href="">Text 3</a></li>
-        </ul>
+        
       </div>
       <div class="col-md-4 col-sm-6 d-none d-sm-none d-md-block d-lg-block d-xl-block" style="margin: auto;text-align: right;">
         <p class=""><span>มหาวิทยาลัยราชภัฎพระนคร</span><br><span>9 ถนนแจ้งวัฒนะ</span> <span>แขวงอนุเสาวรีย์</span><br><span>เขตบางเขน</span> <span>กรุงเทพมหานคร</span> <span>10220</span><br> โทร. 02 544 8432<br>

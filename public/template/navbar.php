@@ -6,15 +6,17 @@ if($user->is_loggedin()){
       $user->logout();
       $user->redirect("/p/");
     }
+
+    // booking function --------------------------------------
     if(isset($_POST["isBooking"])){
       $id = $_POST["uid"];
-      $select = trim($_POST["select"]);
+      $staff = trim($_POST["select"]);
       $date = trim($_POST["book_date"]);
       $note = trim($_POST["book_note"]);
       $status = "รอการยืนยัน";
       $type = "จอง";
       
-      if($select == "" || $select == "..."){
+      if($staff == "" || $staff == "..."){
         $error[] = "กรุณาเลือกการจอง";
       }else if($date == "") {
         $error[] = "กรุณาใส่วันที่";
@@ -30,9 +32,12 @@ if($user->is_loggedin()){
           else {
             $stmt = $conn->prepare("INSERT INTO booking(user_id, staff_id, booking_date, booking_note, booking_status, booking_type) 
                                     VALUES (:user,:staff,:date,:note,:status,:type)");
-            $stmt->execute(array(":user"=>$id, ":staff"=>$select, ":date"=>$date, ":note"=>$note, ":status"=>$status, ":type"=>$type));
+            $stmt->execute(array(":user"=>$id, ":staff"=>$staff, ":date"=>$date, ":note"=>$note, ":status"=>$status, ":type"=>$type));
+            $stmtnoti = $conn->prepare("INSERT INTO notifications(noti_title, noti_type, noti_desc, noti_status, noti_link, user_id, staff_id) 
+                                        VALUES (:title,:type,:desc,:status, :link,:user, :staff)");
+            $stmtnoti->execute(array(":title"=>"การจองเข้าใช้บริการ",":type"=>"การจอง",":desc"=>$date,":status"=>0,":link"=>"/p/staffAppoint",":user"=>$id,":staff"=>$staff));
             $id = null;
-            $select = null;
+            $staff = null;
             $date = null;
             $note = null;
             $status = null;
@@ -45,6 +50,8 @@ if($user->is_loggedin()){
         }
       }
     }
+    // -----------------------------------------------------
+
   }
 }
 
@@ -62,9 +69,9 @@ if($user->is_loggedin()){
       <li class="nav-item">
         <a class="nav-link" href="/p/#product" id="product_nav">สินค้า</a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="/p/#activity" id="activity_nav">กิจกรรม</a>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" href="/p/#contact" id="contact_nav">ติดต่อเรา</a>
       </li>
@@ -78,25 +85,67 @@ if($user->is_loggedin()){
 
     if($user->is_loggedin()) {
       if($user->is_user() || $user->is_staff()) {
-        echo '<li class="nav-item dropdown px-1">
-                <a class="nav-link" id="noti_bell" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
-                  <div style="position: relative;">
-                    <i class="fa fa-bell fa-fw" aria-hidden="true">
-                      <span class="badge badge-pill badge-danger" style="position: absolute;left: 10px;bottom: 10px;">
-                        1
-                      </span>
-                      <span class="sr-only">unread messages</span>
-                    </i>
-                    <span class="d-lg-none d-inline"> การแจ้งเตือน</span>
-                  </div>
-                </a>
-                <div class="dropdown-menu" aria-lebelledby="noti_bell">
-                  <a class="dropdown-item">Item 1</a>
-                  <a class="dropdown-item">Item 2</a>
-                  <a class="dropdown-item">Item 3</a>
-                </div>
-              </li>
-              ';       
+        // ------------------------ Notifications -----------------------
+        // echo '<li class="nav-item dropdown px-1">
+        //         <a class="nav-link" id="noti_bell" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
+        //           <div style="position: relative;">
+        //             <i class="fa fa-bell fa-fw" aria-hidden="true">';
+        //                 if($_SESSION["role"] == "user"){
+        //                   $rid = $_SESSION["id"];
+        //                   $rtype = "การจอง";
+        //                   $stmtNotiCount = $conn->prepare("SELECT COUNT(noti_id) AS noti_count FROM notifications WHERE user_id = :id AND noti_status = 0 AND noti_type = :type");
+        //                 }else if($_SESSION["role"] == "staff"){
+        //                   $rid = $_SESSION["staff"];
+        //                   $rtype = "การนัด";
+        //                   $stmtNotiCount = $conn->prepare("SELECT COUNT(noti_id) AS noti_count FROM notifications WHERE staff_id = :id AND noti_status = 0 AND noti_type = :type");                          
+        //                 }
+                        
+        //                 $stmtNotiCount->execute(array(":id"=>$rid,":type"=>$rtype));
+        //                 $rowNotiCount = $stmtNotiCount->fetch(PDO::FETCH_ASSOC);
+        //                 if($rowNotiCount["noti_count"] > 0){
+        //                   echo '<span class="badge badge-pill badge-danger" aria-hidden="true" style="position: absolute;left: 10px;bottom: 10px;">';
+        //                   echo $rowNotiCount["noti_count"];
+        //                   echo '</span>';
+        //                 }
+        //           echo '<span class="sr-only">unread messages</span>
+        //             </i>
+        //             <span class="d-lg-none d-inline"> การแจ้งเตือน</span>
+        //           </div>
+        //         </a>
+        //         <div class="dropdown-menu" aria-lebelledby="noti_bell" style="min-width: 12.5rem !important;">
+        //           <h6 class="dropdown-header">การแจ้งเตือน</h6>
+        //           <div class="list-group">
+        //           ';
+        //               if($rowNotiCount["noti_count"] > 0){
+        //                 if($_SESSION["role"] == "user"){
+        //                   $stmtNotification = $conn->prepare("SELECT * FROM notifications WHERE user_id = :id AND noti_status = 0");
+        //                 }else if($_SESSION["role"] == "staff"){
+        //                   $stmtNotification = $conn->prepare("SELECT * FROM notifications WHERE staff_id = :id AND noti_status = 0");
+        //                 }
+        //                 $stmtNotification->execute(array(":id"=>$rid));
+        //                 while($rowNotification = $stmtNotification->fetch(PDO::FETCH_ASSOC)){
+        //                   echo '                          
+        //                     <a href="'.$rowNotification["noti_link"].'" class="list-group-item">
+        //                       <div class="">
+        //                         <h6>'.$rowNotification["noti_title"].'</h6>
+        //                       </div>
+        //                       <p class="mb-1">'.$rowNotification["noti_desc"].'</p>
+        //                       <small>'.$rowNotification["noti_type"].'</small>
+        //                     </a>
+        //                   ';
+        //                 }
+        //               }else{
+        //                 echo '
+        //                 <a class="list-group-item text-secondary">
+        //                   <div class="">
+        //                     <h6>ไม่มีการแจ้งเตือน</h6>
+        //                   </div>
+        //                 </a>';
+        //               }
+        //           echo '</div>
+        //         </div>
+        //       </li>
+        //       ';       
       }
       echo '
       <li class="nav-item dropdown px-1 d-lg-inline-block d-none">

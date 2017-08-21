@@ -161,7 +161,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" form="delAppointForm" class="btn btn-primary">Delete Booking</button>
+          <button type="submit" form="delAppointForm" class="btn btn-danger">Delete Booking</button>
         </div>
       </div>
     </div>
