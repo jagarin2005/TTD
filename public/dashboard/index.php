@@ -32,7 +32,7 @@
 						<div class="card">
 							<h4 class="card-header">ข้อมูลส่วนตัว</h4>
 							<div class="card-body">
-								<form action="/p/mail" method="post">
+								<form>
 									<div class="form-group row">
 										<label for="staticName" class="col-sm-4 col-lg-3 col- col-form-label">Name</label>
 										<div class="col-sm-8 col-lg-9">
@@ -63,15 +63,17 @@
 											<input type="text" readonly class="form-control-plaintext" id="staticRole" value="<?php echo $row["user_role"]; ?>">
 										</div>
 									</div>
-									<button type="submit" class="btn btn-primary" name="mailer" value="true">test mailer</button>
+									<!-- <button type="submit" class="btn btn-primary" name="mailer" value="true">test mailer</button> -->
 								</form>
 							</div>
 						</div>
 					</div>
 				</div>
 			</main>
+			<footer class="col-md-9 clearfix my-5 p-3"></footer>
 		</div>
 	</div>
+	
   <?php include_once("../template/footer.js.php"); ?>
 </body>
 </html>

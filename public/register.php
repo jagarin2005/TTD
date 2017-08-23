@@ -1,4 +1,5 @@
 <?php include_once("../config/conn.php") ?>
+<?php include_once("../config/Mailer.php") ?>
 <?php 
   if($user->is_loggedin()) {
     $user->redirect("/p/");

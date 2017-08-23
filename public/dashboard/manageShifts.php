@@ -22,12 +22,7 @@
 				try{
 					$stmt = $conn->prepare("INSERT INTO shifts(staff_id, s_date, s_position) VALUES (:staff,:date,:position)");
 					$stmt->execute(array(":staff"=>$staff, ":date"=>$date, ":position"=>$position));
-					$user->redirect("/p/manageShifts");
-          $staff = null;
-          $date = null;
-          $position = null;
-          unset($_POST["isAddShifts"]);
-					exit();
+          unset($_POST["isAddShifts"],$staff,$date,$position);
 				
 				}catch(PDOException $e) {
 					echo $e->getMessage();
@@ -43,8 +38,6 @@
       }
       unset($id);
       unset($_POST["isDelShifts"]);
-      $user->redirect("/p/manageShifts");
-      exit();
     }
 	}
 ?>

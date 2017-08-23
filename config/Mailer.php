@@ -1,5 +1,5 @@
 <?php 
-  require '../../vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
+  require_once __DIR__ . '/../vendor/autoload.php';
   date_default_timezone_set('Asia/Bangkok');
 
   class Mailer {

@@ -36,8 +36,6 @@
       echo $e->getMessage();
     }
     unset($_POST["isRating"]);
-    $user->redirect("/p/userRating");
-    exit();
     
   }
 ?>

@@ -42,15 +42,7 @@
           }
           else {
             if($user->register($email, $name, $pwd, $role, $tel, $sex)) {
-              $user->redirect("/p/manageUser");
-              $email = null;
-              $name = null;
-              $pwd = null;
-              $tel = null;
-              $sex = null;
-              $role = null;
-              unset($_POST["isAddUser"]);
-              exit();
+              unset($_POST["isAddUser"],$email,$name,$pwd,$tel,$sex,$role);
             }
           }
         }catch(PDOException $e){
@@ -61,9 +53,7 @@
     else if(isset($_POST["isDelUser"])){
       $id = trim($_POST["del"]);
       $user->delete($id);
-      $_POST["isDelUser"] = null;
-      $user->redirect("/p/manageUser");
-      exit();
+      unset($_POST["isDelUser"]);
     }
   }
 ?>

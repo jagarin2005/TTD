@@ -17,11 +17,15 @@
   <link rel="stylesheet" href="./public/css/bootstrap-grid.css">
   <link rel="stylesheet" href="./public/css/bootstrap.css">
   <link rel="stylesheet" href="./public/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="./public/js/fullcalendar-3.4.0/fullcalendar.min.css">
   <link rel="stylesheet" href="./public/css/style.css" type="text/css">
   
   <script src="./public/js/jquery-3.2.1.min.js"></script>
+  <script src="./public/js/fullcalendar-3.4.0/lib/jquery-ui.min.js"></script>
   <script src="./public/js/jquery.dataTables.min.js"></script>
   <script src="./public/js/dataTables.bootstrap4.min.js"></script>
   <script src="./public/js/popper.min.js"></script>
   <script src="./public/js/bootstrap.min.js"></script>
+  <script src="./public/js/fullcalendar-3.4.0/lib/moment.min.js"></script>
+  <script src="./public/js/fullcalendar-3.4.0/fullcalendar.min.js"></script>
 </head>

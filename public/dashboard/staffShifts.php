@@ -25,8 +25,8 @@
 				<div class="page-header">
 					<h1>วันที่เข้าปฏิบัติงาน</h1>
 				</div>
-				<?php if(isset($error)){while($error){ echo $error; }} ?>
-				<p class="lead"></p>
+				<?php if(isset($error)){foreach($error as $err){ echo $err; }} ?>
+				<button class="btn btn-primary" role="button" type="button" data-toggle="modal" data-target="#shifts_calendar_modal"><i class="fa fa-calendar fa-fw"></i> Calendar</button>
 				<hr>
 				<div class="row">
 					<div class="col-md-12">
@@ -57,11 +57,55 @@
 		</div>
   </div>
 
+  <div class="modal fade" id="shifts_calendar_modal" tabindex="-1" role="dialog" aria-labelledby="shiftsCalendar">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="shiftsCalendar">Shifts Calendar</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close fa-fw"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="col-12" id="shifts_calendar"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 	<?php include_once("../template/footer.js.php"); ?>
 	<script>
     $(document).ready(function() {
       $('#shifts_table').DataTable();
     });
+    $('#shifts_calendar').fullCalendar({
+        weekends: false,
+        events: [
+          <?php
+          $stmtDate = $conn->prepare("SELECT shifts.s_date, shifts.s_position FROM shifts INNER JOIN staff ON shifts.staff_id = staff.staff_id WHERE staff.user_id = :id");
+          $stmtDate->execute(array(":id"=>$id));
+          while($rowDate=$stmtDate->fetch(PDO::FETCH_ASSOC)) {
+            echo '{
+                    title : "'. $rowDate["s_position"] .'",
+                    start : "'. $rowDate["s_date"] .'"
+                  }';
+                  if($rowDate["s_date"]){
+                    echo ',';
+                  }
+          }
+          ?>
+        ],
+        header: {
+          left: '',
+          center: 'prev title next',
+          right: ''
+        }
+      });
+    $('#shifts_calendar_modal').on('shown.bs.modal', function() {
+      $('#shifts_calendar').fullCalendar('render');
+    });
+    
   </script>
 </body>
 </html>

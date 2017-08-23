@@ -11,15 +11,32 @@
     if(isset($_POST["isDelAppoint"])){
       try{
         $id = $_POST["del"];
+        // -------- get staff email -------- //
+        $stmtStaffMail = $conn->prepare("SELECT s.staff_email, b.booking_date, b.booking_note, u.user_name FROM booking b INNER JOIN staff s ON s.staff_id = b.staff_id INNER JOIN user u ON u.user_id = b.user_id WHERE b.booking_id = :bid LIMIT 1");
+        $stmtStaffMail->bindParam(":bid", $id);
+        $stmtStaffMail->execute();
+        $rowStaffMail = $stmtStaffMail->fetch(PDO::FETCH_ASSOC);
+        // -------- delete booking -------- //
         $stmt = $conn->prepare("DELETE FROM booking WHERE booking_id = :id");
         $stmt->execute(array(":id"=>$id));
+        // ------- set email message ------ //
+        $subject = "ผู้ใช้งานทำการยกเลิกการจองแล้ว || พระนครคลินิกการแพทย์แผนไทยประยุกต์";
+        $body = "
+        <p>มีผู้ใช้งานได้ทำการยกเลิกการจองเข้ารับบริการ</p>
+        <br>
+              <p>วันที่: ".$rowStaffMail["booking_date"]."</p>
+              <p>ผู้ใช้: ".$rowStaffMail["user_name"]."</p>
+              <p>รายละเอียด: ".$rowStaffMail["booking_note"]."</p>
+              <hr><br>
+              
+        ";
+        $mailer = new Mailer;
+        $mailer->send($rowStaffMail["staff_email"], $subject, $body);
       }catch(PDOException $e){
           echo $e->getMessage();
       }
       unset($id);
       unset($_POST["isDelAppoint"]);
-      $user->redirect("/p/userAppoint");
-      exit();
 		}
 
 		if(isset($_POST["isPostpone"])){
@@ -49,12 +66,46 @@
                                             VALUES (:id, :staff, :date, :note, :status, :type)
                                           ");    
             $stmtPostpone->execute(array(":id"=>$id,":staff"=>$select, ":date"=>$date, ":note"=>$note, ":status"=>$status, ":type"=>$type));
+            // ------ get old staff mail --------
+            $stmtStaffMail = $conn->prepare("SELECT s.staff_email, b.booking_date, b.booking_note, u.user_name FROM booking b INNER JOIN staff s ON s.staff_id = b.staff_id INNER JOIN user u ON u.user_id = b.user_id WHERE b.booking_id = :obid LIMIT 1");
+            $stmtStaffMail->bindParam(":obid", $obid);
+            $stmtStaffMail->execute();
+            $rowStaffMail = $stmtStaffMail->fetch(PDO::FETCH_ASSOC);
+            $subject = "ผู้ใช้งานทำการยกเลิกการจองแล้ว || พระนครคลินิกการแพทย์แผนไทยประยุกต์";
+            $body = "
+            <p>มีผู้ใช้งานได้ทำการยกเลิกการจองเข้ารับบริการ</p>
+            <br>
+                  <p>วันที่: ".$rowStaffMail["booking_date"]."</p>
+                  <p>ผู้ใช้: ".$rowStaffMail["user_name"]."</p>
+                  <p>รายละเอียด: ".$rowStaffMail["booking_note"]."</p>
+                  <hr><br>
+                  
+            ";
+            $mailer = new Mailer;
+            $mailer->send($rowStaffMail["staff_email"], $subject, $body);
+            // ------ delete old booking ------ //
             $stmtDeloBook = $conn->prepare("DELETE FROM booking WHERE booking_id = :obid");
             $stmtDeloBook = $conn->prepare("UPDATE booking SET booking_status = :bstatus WHERE booking_id = :obid");
             $stmtDeloBook->execute(array(":bstatus"=>$bstatus,":obid"=>$bid2));
+            
+            // ------ get new staff mail --------
+            $stmtStaffMail2 = $conn->prepare("SELECT staff_email FROM staff WHERE staff_id = :staff LIMIT 1");
+            $stmtStaffMail2->bindParam(":staff", $select);
+            $stmtStaffMail2->execute();
+            $rowStaffMail2 = $stmtStaffMail2->fetch(PDO::FETCH_ASSOC);
+            $subject2 = "ผู้ใช้งานทำการจอง || พระนครคลินิกการแพทย์แผนไทยประยุกต์";
+            $body2 = "
+            <p>มีผู้ใช้งานได้ทำการจองเข้าใช้งานบริการ</p>
+            <br>
+                  <p>วันที่: ".$date."</p>
+                  <p>ผู้ใช้: ".$rowStaffMail["user_name"]."</p>
+                  <p>รายละเอียด: ".$note."</p>
+                  <hr><br>
+                  
+            ";
+            $mailer = new Mailer;
+            $mailer->send($rowStaffMail2["staff_email"], $subject2, $body2);
             unset($_POST["isPostpone"],$_POST["uid"],$_POST["select"],$_POST["book_date"],$_POST["book_note"],$id,$select,$date,$note);
-            $user->redirect("/p/userAppoint");
-            exit();
           
         }catch(PDOException $e){
           echo $e->getMessage();
@@ -78,7 +129,7 @@
 				<div class="page-header">
 					<h1>การนัดและการจอง</h1>
 				</div>
-				<?php if(isset($error)){while($error){ echo $error; }} ?>
+				<?php if(isset($error)){foreach($error as $err){ echo $err; }} ?>
 				<p class="lead"></p>
 				<hr>
 				<div class="row">

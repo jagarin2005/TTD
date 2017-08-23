@@ -18,11 +18,12 @@
     $cid = $_POST["cid"];
     $status = $_POST["check_status"];
     $stmt = $conn->prepare("SELECT * 
-    FROM checklist c
-    INNER JOIN booking b ON b.booking_id = c.booking_id
-    INNER JOIN staff s ON s.staff_id = c.staff_id
-    INNER JOIN user u ON u.user_id = c.user_id
-    WHERE checklist_id=:cid");
+                            FROM checklist c
+                            INNER JOIN booking b ON b.booking_id = c.booking_id
+                            INNER JOIN staff s ON s.staff_id = c.staff_id
+                            INNER JOIN user u ON u.user_id = c.user_id
+                            WHERE checklist_id=:cid
+                          ");
     $stmt->execute(array(":cid"=>$cid));
     $rowUpdate=$stmt->fetch(PDO::FETCH_ASSOC);
     if($cid != '') {
@@ -35,6 +36,24 @@
         if($result["check_status"] != ''){
           $insScore = $conn->prepare("INSERT INTO scorelog(staff_id, user_id, booking_id, checklist_id) VALUES (:staff,:user,:booking,:checklist)");
           $insScore->execute(array(":staff"=>$rowUpdate["staff_id"], ":user"=>$rowUpdate["user_id"], ":booking"=>$rowUpdate["booking_id"], ":checklist"=>$rowUpdate["checklist_id"] ));
+          // mail to user for rating staff
+          $stmtStaff = $conn->prepare("SELECT b.booking_date,s.staff_name,u.user_email FROM checklist c INNER JOIN staff s ON s.staff_id = c.staff_id INNER JOIN user u ON u.user_id = c.user_id INNER JOIN booking b ON b.booking_id = c.booking_id WHERE c.checklist_id = :cid");
+          $stmtStaff->bindParam(":cid", $cid);
+          $stmtStaff->execute();
+          $rowStaff = $stmtStaff->fetch(PDO::FETCH_ASSOC);
+          $subject = "ขอความกรุณาให้คะแนนความพึงพอใจ || พระนครคลินิกการแพทย์แผนไทยประยุกต์";
+          $body = "
+          <p>ขอบคุณที่มาใช้บริการกับทางคลินิกฯ</p>
+          <br>
+                <p>วันที่: ".$rowStaff["booking_date"]."</p>
+                <p>เจ้าหน้าที่: ".$rowStaff["staff_name"]."</p>
+                <hr><br>
+                
+                <p>ขอความกรุณาให้คะแนนความพึงพอใจและคำติชมได้ทางเว็บไซต์ของเรา</p>
+                <p>ขอบคุณที่ใช้บริการค่ะ</p>
+          ";
+          $mailer = new Mailer;
+          $mailer->send($rowUpdate["user_email"], $subject, $body);
         }
         unset($_POST["cid"]);
         unset($_POST["isUpdateCheck"]);
@@ -114,7 +133,7 @@
                         <th>ผลการรักษา</th>
                         <th></th>
                       </tr></thead><tbody>';
-                      $id = $_SESSION["id"];
+                      $id = $_SESSION["staff"];
               $stmt = $conn->prepare("SELECT u.user_id, u.user_name, s.staff_id, b.booking_id, c.checklist_id, c.checklist_note, c.check_status, b.booking_date, b.booking_note, b.booking_status, b.booking_type
                                       FROM checklist c
                                       LEFT JOIN booking b ON b.booking_id = c.booking_id
@@ -122,7 +141,7 @@
                                       INNER JOIN user u ON u.user_id = c.user_id
                                       WHERE c.staff_id = :id");
                                       
-              $stmt->execute(array(":id"=>$rowStaff["staff_id"]));
+              $stmt->execute(array(":id"=>$id));
               while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '<tr>
                         <td>'. $row["booking_date"] .'</td>

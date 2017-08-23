@@ -1,3 +1,4 @@
 node_modules/
 vendor/
 public/img/*.psd
+public/js/fullcalendar-3.4.0/

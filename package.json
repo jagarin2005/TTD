@@ -16,6 +16,7 @@
     "gulp-uglify": "^3.0.0"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.6"
+    "bootstrap": "^4.0.0-alpha.6",
+    "fullcalendar": "^3.4.0"
   }
 }
