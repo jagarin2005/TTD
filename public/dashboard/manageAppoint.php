@@ -1,10 +1,10 @@
 <?php include_once("../../config/conn.php"); ?>
 <?php 
   if(!$user->is_loggedin()) {
-		$user->redirect("/p/");
+		$user->redirect("/");
 	}
   if(!$user->is_admin()){
-    $user->redirect("/p/");
+    $user->redirect("/");
   }
   
 ?>

@@ -24,7 +24,7 @@
       <h3>สินค้าจากทางคลินิก</h3>
       <div class="card-deck" id="product">
         <div class="card">
-          <img class="card-img-top img-fluid" src="/p/public/img/product/c79.jpg" alt="Card image cap">
+          <img class="card-img-top img-fluid" src="/public/img/product/c79.jpg" alt="Card image cap">
           <div class="card-body">
             <h4 class="card-title">ชุดของที่ระลึก จากผลิตภัณฑ์แปรรูปจากสมุนไพร</h4>
             <p class="card-text">จำหน่ายโดย การแพทย์แผนไทยประยุกต์ วิทยาลัยนานาชาติพระนคร มหาวิทยาลัยราชภัฏพระนคร</p>
@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="card">
-          <img class="card-img-top img-fluid" src="/p/public/img/product/c100.jpg" alt="Card image cap">
+          <img class="card-img-top img-fluid" src="/public/img/product/c100.jpg" alt="Card image cap">
           <div class="card-body">
              <h4 class="card-title">ชุดของที่ระลึก จากผลิตภัณฑ์แปรรูปจากสมุนไพร</h4>
             <p class="card-text">จำหน่ายโดย การแพทย์แผนไทยประยุกต์ วิทยาลัยนานาชาติพระนคร มหาวิทยาลัยราชภัฏพระนคร</p>
@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="card">
-          <img class="card-img-top img-fluid" src="/p/public/img/product/c120.jpg" alt="Card image cap">
+          <img class="card-img-top img-fluid" src="/public/img/product/c120.jpg" alt="Card image cap">
           <div class="card-body">
              <h4 class="card-title">ชุดของที่ระลึก จากผลิตภัณฑ์แปรรูปจากสมุนไพร</h4>
             <p class="card-text">จำหน่ายโดย การแพทย์แผนไทยประยุกต์ วิทยาลัยนานาชาติพระนคร มหาวิทยาลัยราชภัฏพระนคร</p>

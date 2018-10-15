@@ -1,30 +1,30 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /p/public/
+    RewriteBase /
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^/$ index.php/ [NC,R=301,L]
-    RewriteRule ^index$ index.php
-    RewriteRule ^login$ login.php
-    RewriteRule ^register$ register.php
-    RewriteRule ^verify$ verify.php
-    RewriteRule ^dashboard$ dashboard/index.php
-    RewriteRule ^manageUser$ dashboard/manageUser.php
-    RewriteRule ^manageShifts$ dashboard/manageShifts.php
-    RewriteRule ^manageAppoint$ dashboard/manageAppoint.php
-    RewriteRule ^editUser$ dashboard/editUser.php
-    RewriteRule ^staffAppoint$ dashboard/staffAppoint.php
-    RewriteRule ^staffShifts$ dashboard/staffShifts.php
-    RewriteRule ^userAppoint$ dashboard/userAppoint.php
-    RewriteRule ^userCheck$ dashboard/userCheck.php
-    RewriteRule ^staffCheck$ dashboard/staffCheck.php
-    RewriteRule ^staffEditCheck? dashboard/staffEditCheck.php
-    RewriteRule ^userRating$ dashboard/userRating.php
-    RewriteRule ^checkRating$ dashboard/checkRating.php
-    RewriteRule ^staffRating$ dashboard/staffRating.php
-    RewriteRule ^setting$ dashboard/setting.php
-    RewriteRule ^rank$ dashboard/rank.php
+    RewriteRule ^index$ public/index.php
+    RewriteRule ^login$ public/login.php
+    RewriteRule ^register$ public/register.php
+    RewriteRule ^verify$ public/verify.php
+    RewriteRule ^dashboard$ public/dashboard/index.php
+    RewriteRule ^manageUser$ public/dashboard/manageUser.php
+    RewriteRule ^manageShifts$ public/dashboard/manageShifts.php
+    RewriteRule ^manageAppoint$ public/dashboard/manageAppoint.php
+    RewriteRule ^editUser$ public/dashboard/editUser.php
+    RewriteRule ^staffAppoint$ public/dashboard/staffAppoint.php
+    RewriteRule ^staffShifts$ public/dashboard/staffShifts.php
+    RewriteRule ^userAppoint$ public/dashboard/userAppoint.php
+    RewriteRule ^userCheck$ public/dashboard/userCheck.php
+    RewriteRule ^staffCheck$ public/dashboard/staffCheck.php
+    RewriteRule ^staffEditCheck? public/dashboard/staffEditCheck.php
+    RewriteRule ^userRating$ public/dashboard/userRating.php
+    RewriteRule ^checkRating$ public/dashboard/checkRating.php
+    RewriteRule ^staffRating$ public/dashboard/staffRating.php
+    RewriteRule ^setting$ public/dashboard/setting.php
+    RewriteRule ^rank$ public/dashboard/rank.php
+    RewriteRule ^mail$ public/dashboard/mail.php
 
-    RewriteRule ^mail$ dashboard/mail.php
     DirectoryIndex public/index.php
 </IfModule>

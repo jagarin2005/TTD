@@ -2,7 +2,7 @@
 <?php include_once("../config/Mailer.php") ?>
 <?php 
   if($user->is_loggedin()) {
-    $user->redirect("/p/");
+    $user->redirect("/");
   }
 ?>
 <?php
@@ -46,7 +46,7 @@
         }
         else {
           if($user->register($email, $name, $pwd, $role, $tel, $sex)) {
-            $user->redirect("/p/");
+            $user->redirect("/");
           }
         }
       }catch(PDOException $e){
@@ -106,12 +106,12 @@
                 <div class="text-center">
                   <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" name="sex" id="sex" value="ชาย"> เพศชาย <i class="fa fa-male"></i>
+                      <input class="form-check-input" type="radio" name="sex" id="sex_male" value="ชาย"> เพศชาย <i class="fa fa-male"></i>
                     </label>
                   </div>
                   <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" name="sex" id="sex" value="หญิง"> เพศหญิง <i class="fa fa-female"></i>
+                      <input class="form-check-input" type="radio" name="sex" id="sex_female" value="หญิง"> เพศหญิง <i class="fa fa-female"></i>
                     </label>
                     </div>
                   </div>

@@ -1,7 +1,7 @@
 <?php include_once("../config/conn.php") ?>
 <?php 
   if($user->is_loggedin()) {
-    $user->redirect("/p/");
+    $user->redirect("/");
   }
 ?>
 <?php 
@@ -9,8 +9,8 @@
     $email = $_POST["eml"];
     $password = $_POST["pwd"];
     if($user->login($email, $password)) {
-      $user->redirect("/p/");
-      exit();
+      $user->redirect("/");
+      exit;
     }else{
       $error = "อีเมล์หรือรหัสผ่านของคุณไม่ถูกต้อง";
     }

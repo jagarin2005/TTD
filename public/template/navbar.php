@@ -4,7 +4,7 @@ if($user->is_loggedin()){
   if($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST["isLogout"])){
       $user->logout();
-      $user->redirect("/p/");
+      $user->redirect("/");
     }
 
     // booking function --------------------------------------
@@ -74,19 +74,19 @@ if($user->is_loggedin()){
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active">
-        <a class="nav-link" href="/p/" id="index_nav">หน้าหลัก</a>
+        <a class="nav-link" href="/" id="index_nav">หน้าหลัก</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/p/#product" id="product_nav">สินค้า</a>
+        <a class="nav-link" href="/#product" id="product_nav">สินค้า</a>
       </li>
       <!-- <li class="nav-item">
-        <a class="nav-link" href="/p/#activity" id="activity_nav">กิจกรรม</a>
+        <a class="nav-link" href="/#activity" id="activity_nav">กิจกรรม</a>
       </li> -->
       <li class="nav-item">
-        <a class="nav-link" href="/p/#contact" id="contact_nav">ติดต่อเรา</a>
+        <a class="nav-link" href="/#contact" id="contact_nav">ติดต่อเรา</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/p/#about" id="about_nav">เกี่ยวกับคลินิกฯ</a>
+        <a class="nav-link" href="/#about" id="about_nav">เกี่ยวกับคลินิกฯ</a>
       </li>
     </ul>
     <hr class="col-12 d-lg-none" style="width: 90%;">
@@ -100,7 +100,7 @@ if($user->is_loggedin()){
           <i class="fa fa-user fa-fw"></i> '. $_SESSION["name"] .'
         </a>
         <div class="dropdown-menu" aria-labelledby="userMenu">
-          <a class="dropdown-item" href="/p/dashboard"><i class=""></i> Dashboard</a>';
+          <a class="dropdown-item" href="/dashboard"><i class=""></i> Dashboard</a>';
  
           if($user->is_user()) {
             echo '<button class="dropdown-item btn btn-link" type="button" data-toggle="modal" data-target="#booking_modal">ทำการจอง</button>';
@@ -118,7 +118,7 @@ if($user->is_loggedin()){
         <a class="nav-link"><i class="fa fa-user fa-fw"></i> '. $_SESSION["name"] .'</a>
       </li>
       <li class="nav-item px-1 d-lg-none">
-        <a class="nav-link" href="/p/dashboard"><i class=""></i> Dashboard</a>
+        <a class="nav-link" href="/dashboard"><i class=""></i> Dashboard</a>
       </li>
       <li class="nav-item px-1 d-lg-none">';
       if($user->is_user()){
@@ -136,10 +136,10 @@ if($user->is_loggedin()){
     }else{ 
       echo '
       <li class="nav-item">
-        <a class="nav-link" href="/p/register"><i class="fa fa-id-card-o fa-fw" aria-hidden="true"></i> สมัครสมาชิก</a>
+        <a class="nav-link" href="/register"><i class="fa fa-id-card-o fa-fw" aria-hidden="true"></i> สมัครสมาชิก</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/p/login"><i class="fa fa-sign-in fa-fw" aria-hidden="true"></i> เข้าสู่ระบบ</a>
+        <a class="nav-link" href="/login"><i class="fa fa-sign-in fa-fw" aria-hidden="true"></i> เข้าสู่ระบบ</a>
       </li> ';
     }
     ?>
@@ -195,7 +195,7 @@ if($user->is_loggedin()){
         document.getElementById("bookForm").innerHTML = this.responseText;
       }
     }
-    xmlhttp.open("GET","/p/public/template/bookForm.php?q="+str,true);
+    xmlhttp.open("GET","/template/bookForm.php?q="+str,true);
     xmlhttp.send();
   }
 
@@ -210,7 +210,7 @@ if($user->is_loggedin()){
         document.getElementById("stImage").innerHTML = this.responseText;
       }
     }
-    xmlhttp.open("GET","/p/public/template/stImage.php?q="+val,true);
+    xmlhttp.open("GET","/template/stImage.php?q="+val,true);
     xmlhttp.send();
   }
   
@@ -225,7 +225,7 @@ if($user->is_loggedin()){
         document.getElementById("dtStaff").innerHTML = this.responseText;
       }
     }
-    xmlhttp.open("GET", "/p/public/template/dtStaff.php?q="+date, true);
+    xmlhttp.open("GET", "/template/dtStaff.php?q="+date, true);
     xmlhttp.send();
   }
 </script>

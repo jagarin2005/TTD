@@ -13,8 +13,8 @@
           <h1 class="display-4">คลินิกแพทย์แผนไทยประยุกต์</h1>
           <h2 class="pb-3">มหาวิทยาลัยราชภัฎพระนคร</h2>
           <div class="pb-5">
-            <a class="btn btn-outline-primary btn-lg" href="/p/register"><i class="fa fa-id-card-o" aria-hidden="true"></i> สมัครสมาชิก</a>
-            <a class="btn btn-outline-primary btn-lg" href="/p/login"><i class="fa fa-sign-in" aria-hidden="true"></i> เข้าสู่ระบบ</a>
+            <a class="btn btn-outline-primary btn-lg" href="/register"><i class="fa fa-id-card-o" aria-hidden="true"></i> สมัครสมาชิก</a>
+            <a class="btn btn-outline-primary btn-lg" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> เข้าสู่ระบบ</a>
           </div>
         </div>
       </div>

@@ -4,18 +4,18 @@
       if($user->confirm_email($_GET["email"], $_GET["confirm_code"])) {
         $user->setActivate($_GET["email"], $_GET["confirm_code"]);
         $message = '<p>การยืนยันการสมัครสมาชิกสำเร็จ ท่านสามารถเข้าสู่ระบบได้แล้ว กรุณาไปที่หน้า เข้าสู่ระบบ ขอบคุณที่สละเวลาค่ะ</p>
-                    <a href="/p/login">เข้าสู่หน้า Login</a>
+                    <a href="/login">เข้าสู่หน้า Login</a>
                     ';
       }else{
         $message = '<p>การยืนยันอีเมล์เกิดข้อผิดพลาด กรุณาติดต่อกับทางคลินิกหรือลองใหม่อีกครั้งค่ะ</p>
-                    <a href="/p/">กลับไปยังหน้าหลัก</a>
+                    <a href="/">กลับไปยังหน้าหลัก</a>
                     ';
       }
     }else{
-      $user->redirect("/p/");
+      $user->redirect("/");
     }
   if($user->is_loggedin()) {
-    $user->redirect("/p/");
+    $user->redirect("/");
   }
 ?>
 <!DOCTYPE html>

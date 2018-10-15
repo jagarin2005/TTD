@@ -4,10 +4,10 @@
 ?>
 <?php 
   if(!$user->is_loggedin()) {
-		$user->redirect("/p/");
+		$user->redirect("/");
 	}
   if(!$user->is_staff()){
-    $user->redirect("/p/");
+    $user->redirect("/");
   }
 ?>
 <!DOCTYPE html>

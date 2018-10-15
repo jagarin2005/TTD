@@ -1,10 +1,10 @@
 <?php include_once("../../config/conn.php"); ?>
 <?php 
   if(!$user->is_loggedin()) {
-		$user->redirect("/p/");
+		$user->redirect("/");
 	}
 	if(!$user->is_user()){
-    $user->redirect("/p/dashboard");
+    $user->redirect("/dashboard");
     exit();
   }
   if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -284,7 +284,7 @@
         document.getElementById("bookForm2").innerHTML = this.responseText;
       }
     }
-    xmlhttp.open("GET","/p/public/template/bookForm.php?q="+str,true);
+    xmlhttp.open("GET","/template/bookForm.php?q="+str,true);
     xmlhttp.send();
   }
 
@@ -299,7 +299,7 @@
         document.getElementById("stImage").innerHTML = this.responseText;
       }
     }
-    xmlhttp.open("GET","/p/public/template/stImage.php?q="+val,true);
+    xmlhttp.open("GET","/template/stImage.php?q="+val,true);
     xmlhttp.send();
   }
   
@@ -314,7 +314,7 @@
         document.getElementById("dtStaff").innerHTML = this.responseText;
       }
     }
-    xmlhttp.open("GET", "/p/public/template/dtStaff.php?q="+date, true);
+    xmlhttp.open("GET", "/template/dtStaff.php?q="+date, true);
     xmlhttp.send();
   }
 </script>

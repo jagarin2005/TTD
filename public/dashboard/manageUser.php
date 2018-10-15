@@ -1,10 +1,10 @@
 <?php include_once("../../config/conn.php"); ?>
 <?php 
   if(!$user->is_loggedin()) {
-		$user->redirect("/p/");
+		$user->redirect("/");
 	}
 	if(!$user->is_admin()){
-    $user->redirect("/p/");
+    $user->redirect("/");
   }
 
   if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -99,7 +99,7 @@
                         <td>'. $row["user_name"] .'</td>
                         <td>'. $row["user_tel"] .'</td>
                         <td>'. $row["user_sex"] .'</td>
-                        <td class="text-center"><a class="text-primary" href="/p/editUser?uid='. $row["user_id"] .'" data-toggle="tooltip" data-placement="right" title="แก้ไขข้อมูล"><i class="fa fa-edit"></i></a> 
+                        <td class="text-center"><a class="text-primary" href="/editUser?uid='. $row["user_id"] .'" data-toggle="tooltip" data-placement="right" title="แก้ไขข้อมูล"><i class="fa fa-edit"></i></a> 
                             <a class="text-danger" href="#" data-toggle="modal" data-target="#del_user" data-uid="'. $row["user_id"] .'" data-toggle="tooltip" data-placement="right" title="ลบข้อมูล"><i class="fa fa-close"></i></a>
                       </tr>';
               }

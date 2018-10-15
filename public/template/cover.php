@@ -24,8 +24,8 @@
         <div class="col-12">
           <?php
           if(!$user->is_loggedin()){ 
-            echo '<a class="btn btn-outline-success btn-lg m-1" href="/p/register"><i class="fa fa-id-card-o" aria-hidden="true"></i> สมัครสมาชิก</a>';
-            echo '<a class="btn btn-outline-success btn-lg m-1" href="/p/login"><i class="fa fa-sign-in" aria-hidden="true"></i> เข้าสู่ระบบ</a>';
+            echo '<a class="btn btn-outline-success btn-lg m-1" href="/register"><i class="fa fa-id-card-o" aria-hidden="true"></i> สมัครสมาชิก</a>';
+            echo '<a class="btn btn-outline-success btn-lg m-1" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> เข้าสู่ระบบ</a>';
           }
           ?>
         </div>

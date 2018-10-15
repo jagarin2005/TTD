@@ -1,10 +1,10 @@
 <?php include_once("../../config/conn.php"); ?>
 <?php 
   if(!$user->is_loggedin()) {
-		$user->redirect("/p/");
+		$user->redirect("/");
 	}
 	if(!$user->is_user()){
-    $user->redirect("/p/dashboard");
+    $user->redirect("/dashboard");
     exit();
   }
   if(isset($_POST["isRating"])) {

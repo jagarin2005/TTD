@@ -106,7 +106,7 @@
       กรณาคลิกที่ลิงก์เพื่อยืนยันอีเมล์นี้
 
       E-mail: '.$email.'
-      Link: http://localhost:8000/p/verify?email='.$email.'&confirm_code='.$hash.'
+      Link: http://localhost:8000/verify?email='.$email.'&confirm_code='.$hash.'
 
       ขอบคุณค่ะ
       ________________________________________________

@@ -2,14 +2,14 @@
 <?php 
 
   if(!$user->is_loggedin()) {
-		$user->redirect("/p/");
+		$user->redirect("/");
 	}
 	if($user->is_staff()){
-    $user->redirect("/p/dashboard");
+    $user->redirect("/dashboard");
     exit();
   }
   if($user->is_user()){
-    $user->redirect("/p/");
+    $user->redirect("/");
   }
 
   $stmt = $conn->prepare("SELECT * FROM user WHERE user_id=:uid");
@@ -28,7 +28,7 @@
           $stmt->execute(array(":email"=>$email));
           $row=$stmt->fetch(PDO::FETCH_ASSOC);
             if($user->update($_GET["uid"], $email, $name, $role, $tel, $sex)) {
-              $user->redirect("/p/manageUser");
+              $user->redirect("/manageUser");
               exit();
             }
         }catch(PDOException $e){
@@ -52,7 +52,7 @@
 				<div class="page-header">
           <h1>แก้ไขข้อมูลผู้ใช้</h1>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/p/manageUser">การจัดการผู้ใช้</a></li>
+            <li class="breadcrumb-item"><a href="/manageUser">การจัดการผู้ใช้</a></li>
             <li class="breadcrumb-item active">แก้ไขผู้ใช้</li>
           </ol>
         </div>
