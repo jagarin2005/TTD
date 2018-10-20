@@ -1,6 +1,5 @@
 version: '3'
 services:
-
   php:
     container_name: p-php
     build:
@@ -11,10 +10,19 @@ services:
       - ../.:/var/www/html
     ports:
       - 8000:80
-
     depends_on:
       - db
+    links:
+      - db
 
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    ports:
+      - 8001:80
+    depends_on:
+      - db
     links:
       - db
 

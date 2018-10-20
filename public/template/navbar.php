@@ -195,7 +195,7 @@ if($user->is_loggedin()){
         document.getElementById("bookForm").innerHTML = this.responseText;
       }
     }
-    xmlhttp.open("GET","/template/bookForm.php?q="+str,true);
+    xmlhttp.open("GET","./public/template/bookForm.php?q="+str,true);
     xmlhttp.send();
   }
 
@@ -210,7 +210,7 @@ if($user->is_loggedin()){
         document.getElementById("stImage").innerHTML = this.responseText;
       }
     }
-    xmlhttp.open("GET","/template/stImage.php?q="+val,true);
+    xmlhttp.open("GET","./public/template/stImage.php?q="+val,true);
     xmlhttp.send();
   }
   
@@ -225,7 +225,7 @@ if($user->is_loggedin()){
         document.getElementById("dtStaff").innerHTML = this.responseText;
       }
     }
-    xmlhttp.open("GET", "/template/dtStaff.php?q="+date, true);
+    xmlhttp.open("GET", "./public/template/dtStaff.php?q="+date, true);
     xmlhttp.send();
   }
 </script>

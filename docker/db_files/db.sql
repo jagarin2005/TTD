@@ -210,15 +210,15 @@ CREATE TABLE `staff` (
 --
 
 INSERT IGNORE INTO `staff` (`staff_id`, `staff_name`, `staff_email`, `staff_tel`, `user_id`, `staff_image`) VALUES
-(9, 'อ.นพวรรณ์ พรศิริ', 's1@staff.com', '0000000000', 25, '/p/public/img/profile/อ_นพวรรณ์.png'),
-(10, 'อ.สุภกฤษ บุตรจันทร์', 's2@staff.com', '0001000200', 26, '/p/public/img/profile/อ_สุภกฤษ.png'),
-(11, 'อ.ศรินรัตน์ โคตะพันธ์', 's3@staff.com', '', 27, '/p/public/img/profile/อ_ศรินรัตน์.png'),
-(12, 'อ.กุลนันทน์ จงนิมิตไพบูรย์', 's4@staff.com', '', 28, '/p/public/img/profile/อ_กุลนันทน์.png'),
-(13, 'อ.กุลภัสร โภชนกุล', 's5@staff.com', '', 29, '/p/public/img/profile/อ_กุลภัสร.png'),
-(14, 'อ.กุลิสรา เผ่าพันธ์', 's6@staff.com', '', 30, '/p/public/img/profile/อ_กุลิสรา.png'),
-(15, 'อ.ศุภมาศ จารุจรณ', 's7@staff.com', '', 31, '/p/public/img/profile/อ_ศุภมาศ.png'),
-(16, 'อ.นฤมล วิถีธรรมศักดิ์', 's8@staff.com', '', 32, '/p/public/img/profile/อ_นฤมล.png'),
-(17, 'อ.อนรรฆนง ลิ้มสุวรรณ', 's9@staff.com', '', 33, '/p/public/img/profile/อ_อนรรฆนง.png');
+(9, 'อ.นพวรรณ์ พรศิริ', 's1@staff.com', '0000000000', 25, '/public/img/profile/อ_นพวรรณ์.png'),
+(10, 'อ.สุภกฤษ บุตรจันทร์', 's2@staff.com', '0001000200', 26, '/public/img/profile/อ_สุภกฤษ.png'),
+(11, 'อ.ศรินรัตน์ โคตะพันธ์', 's3@staff.com', '', 27, '/public/img/profile/อ_ศรินรัตน์.png'),
+(12, 'อ.กุลนันทน์ จงนิมิตไพบูรย์', 's4@staff.com', '', 28, '/public/img/profile/อ_กุลนันทน์.png'),
+(13, 'อ.กุลภัสร โภชนกุล', 's5@staff.com', '', 29, '/public/img/profile/อ_กุลภัสร.png'),
+(14, 'อ.กุลิสรา เผ่าพันธ์', 's6@staff.com', '', 30, '/public/img/profile/อ_กุลิสรา.png'),
+(15, 'อ.ศุภมาศ จารุจรณ', 's7@staff.com', '', 31, '/public/img/profile/อ_ศุภมาศ.png'),
+(16, 'อ.นฤมล วิถีธรรมศักดิ์', 's8@staff.com', '', 32, '/public/img/profile/อ_นฤมล.png'),
+(17, 'อ.อนรรฆนง ลิ้มสุวรรณ', 's9@staff.com', '', 33, '/public/img/profile/อ_อนรรฆนง.png');
 
 -- --------------------------------------------------------
 
@@ -243,7 +243,7 @@ CREATE TABLE `user` (
 --
 
 INSERT IGNORE INTO `user` (`user_id`, `user_email`, `user_pwd`, `user_role`, `user_name`, `user_tel`, `user_sex`, `user_hash`, `user_active`) VALUES
-(0, 'admin@admin', 'ab51c77f25a5526ed410c8fe25df539d', 'admin', 'Admin', '-', '-1', '0', 1),
+(0, 'admin@admin', 'f5bb0c8de146c67b44babbf4e6584cc0', 'admin', 'Admin', '-', '-1', '0', 1),
 (25, 's1@staff.com', 'f5bb0c8de146c67b44babbf4e6584cc0', 'staff', 'อ.นพวรรณ์ พรศิริ', '', 'หญิง', '0', 0),
 (26, 's2@staff.com', 'f5bb0c8de146c67b44babbf4e6584cc0', 'staff', 'อ.สุภกฤษ บุตรจันทร์', '', 'ชาย', '0', 0),
 (27, 's3@staff.com', 'f5bb0c8de146c67b44babbf4e6584cc0', 'staff', 'อ.ศรินรัตน์ โคตะพันธ์', '', 'หญิง', '0', 0),
