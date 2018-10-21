@@ -1,14 +1,14 @@
 <?php include_once("../../config/conn.php"); ?>
 <?php 
-
-?>
-<?php 
   if(!$user->is_loggedin()) {
 		$user->redirect("/");
 	}
   if(!$user->is_staff()){
     $user->redirect("/");
   }
+?>
+<?php
+  require_once("../template/navbarFunction.php");
 ?>
 <!DOCTYPE html>
 <html>

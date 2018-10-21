@@ -10,7 +10,6 @@
     $password = $_POST["pwd"];
     if($user->login($email, $password)) {
       $user->redirect("/");
-      exit;
     }else{
       $error = "อีเมล์หรือรหัสผ่านของคุณไม่ถูกต้อง";
     }

@@ -6,7 +6,9 @@
   if(!$user->is_admin()){
     $user->redirect("/");
   }
-  
+?>
+<?php
+  require_once("../template/navbarFunction.php");
 ?>
 <!DOCTYPE html>
 <html>

@@ -16,7 +16,7 @@ services:
       - db
 
   phpmyadmin:
-    container_name: phpmyadmin
+    container_name: p-phpmyadmin
     image: phpmyadmin/phpmyadmin:latest
     restart: always
     ports:

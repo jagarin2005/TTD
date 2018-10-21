@@ -5,9 +5,8 @@
 	}
 	if(!$user->is_staff()){
     $user->redirect("/");
-    exit();
   }
-
+  require_once("../template/navbarFunction.php");
   $stmtStaff = $conn->prepare("SELECT * FROM staff WHERE user_id = :uid");
   $stmtStaff->bindParam(":uid", $_SESSION["id"]);
   $stmtStaff->execute();

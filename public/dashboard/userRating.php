@@ -5,8 +5,8 @@
 	}
 	if(!$user->is_user()){
     $user->redirect("/dashboard");
-    exit();
   }
+  require_once("../template/navbarFunction.php");
   if(isset($_POST["isRating"])) {
     $score = $_POST["rating"];
     $note = $_POST["rating_note"];

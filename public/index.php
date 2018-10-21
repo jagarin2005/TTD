@@ -1,4 +1,7 @@
 <?php include_once("../config/conn.php"); ?>
+<?php
+  require_once("./template/navbarFunction.php");
+?>
 <!DOCTYPE html>
 <html>
 <?php 
@@ -9,8 +12,10 @@
 
   $title = "พระนครคลินิกการแพทย์แผนไทยประยุกต์";
   $buffer = preg_replace('/(<title>)(.*?)(<\/title>)/i','$1' . $title . '$3', $buffer);
-
+  
+  ob_start();
   echo $buffer;
+  
 ?>
 <body data-spy="scroll" data-target="#navbarSupportedContent" data-offset="50">
   <?php include_once('./template/navbar.php'); ?>

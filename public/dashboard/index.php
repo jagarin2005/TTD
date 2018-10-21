@@ -4,6 +4,9 @@
 		$user->redirect("/");
 	}
 ?>
+<?php
+  require_once("../template/navbarFunction.php");
+?>
 <!DOCTYPE html>
 <html>
 <?php include_once("../template/head.php"); ?>

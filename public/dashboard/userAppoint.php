@@ -5,8 +5,8 @@
 	}
 	if(!$user->is_user()){
     $user->redirect("/dashboard");
-    exit();
   }
+  require_once("../template/navbarFunction.php");
   if($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST["isDelAppoint"])){
       try{

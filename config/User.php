@@ -194,12 +194,11 @@
       }
     }
 
-    public function is_activate() {
-      
-    }
+    public function is_activate() {}
 
     public function redirect($url) {
       header("Location: $url");
+      exit;
     }
 
     public function logout() {

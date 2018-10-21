@@ -6,6 +6,7 @@
 	if(!$user->is_admin()){
     $user->redirect("/");
   }
+  require_once("../template/navbarFunction.php");
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
 		if(isset($_POST["isAddShifts"])){
 			$staff = trim($_POST["s_staff"]);

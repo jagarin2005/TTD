@@ -4,10 +4,11 @@
 		$user->redirect("/");
 	}
 	if(!$user->is_user()){
-    $user->redirect("/dashboard");
-    exit();
+    $user->redirect("/dashboard");  
   }
-  
+?>
+<?php
+  require_once("../template/navbarFunction.php");
 ?>
 <!DOCTYPE html>
 <html>

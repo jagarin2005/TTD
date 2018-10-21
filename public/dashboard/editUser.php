@@ -11,6 +11,8 @@
   if($user->is_user()){
     $user->redirect("/");
   }
+  
+  require_once("../template/navbarFunction.php");
 
   $stmt = $conn->prepare("SELECT * FROM user WHERE user_id=:uid");
   $stmt->execute(array(":uid"=>$_GET["uid"]));

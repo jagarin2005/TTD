@@ -2,13 +2,11 @@
 <?php 
   if(!$user->is_loggedin()) {
     $user->redirect("/");
-    exit;
   }
   if(!$user->is_staff()) {
     $user->redirect("/");
-    exit;
   }
-  
+  require_once("../template/navbarFunction.php");
   if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["con"])){
     $uid = $_POST["uid"];
     $sid = $_POST["sid"];
